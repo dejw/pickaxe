@@ -1,0 +1,126 @@
+134. Dokładność reprezentacji zmiennoprzecinkowej jest określona przez:
+(a) liczbę bitów mantysy i wykładnika
+(b) liczbę bitów mantysy i zakres wykładnika
+>> (c) liczbę bitów mantysy
+(d) zakres wykładnika
+
+135. Wybierz poprawną odpowiedź:
+(a) uwarunkowanie i stabilność numeryczna są cechami zadania
+>> (b) algorytmy numerycznie poprawne dają rozwiązanie będące nieco zaburzonym dokładnym rozwiązaniem zadania o nieco zaburzonych danych
+(c) wskaźniki uwarunkowania określają poprawność numeryczną
+(d) uwarunkowanie to cecha wynikająca tylko z dokładności operacji zmiennoprzecinkowych
+
+136. Efekt Rungego w interpolacji wielomianowej to:
+(a) konsekwencja arytmetyki zmiennoprzecinkowej
+>> (b) wynik błędu metody
+(c) wynik wyboru złej funkcji interpolującej
+(d) wynik braku jednoznaczności rozwiązania zadania interpolacji
+
+137. Funkcje sklejane stopnia m na przedziale [a,b]
+(a) są jednoznacznie określone przez podanie warunków brzegowych
+(b) nie są przydatne do interpolowania funkcji periodycznych
+>> (c) są ciągłe wraz z (m-1) pochodnymi na [a,b]
+(d) są używane tylko do interpolacji przedziałowej
+
+138. Wybierz poprawną odpowiedź:
+(a) aproksymacja średniokwadratowa polega na minimalizacji normy Czebyszewa
+(b) przybliżenia Pade to technika aproksymacji średniokwadratowej
+(c) funkcje sklejane nie mogą być wykorzystane do aproksymacji średniokwadratowej ze względu na postać minimalizowanej normy
+>> (d) interpolacja z węzłami będącymi zerami wielomianu Czebyszewa odpowiedniego stopnia eliminuje efekt Rungego
+
+139. Kwadratury Gaussa stosowane są:
+(a) ze względu na łatwiejszy wybór węzłów całkowania
+(b) dlatego, że kwadratury Newtona-Cotesa nie dają możliwości usuwania całkowalnych osobliwości
+>> (c) ze względu na mniejszą złożoność obliczeniową niż kwadratur Newtona-Cotesa
+>> (d) ponieważ umożliwiają uzyskanie prawie dwa razy większego stopnia dokładności niż kwadratury Newtona-Cotesa dla tej samej liczby węzłów
+
+// (c) porównując dla tego samego stopnia dokładności
+
+140. Metoda Newtona-Raphsona rozwiązywania równań nieliniowych:
+(a) jest przykładem metody interpolacyjnej
+(b) wykorzystuje niejawnie przyspieszenie Aitkena
+(c) ma rząd zbieżności równy 1
+>> (d) jest przykładem metody iteracyjnej o stałym punkcie
+
+141. Metoda eliminacji Gaussa rozwiązywania układów równań liniowych:
+>> (a) wymaga wyszukiwania elementu wiodącego i polega na przekształceniu macierzy do postaci trójkątnej górnej
+(b) ma złożoność O(n), gdzie n - liczba równań
+(c) polega na doprowadzeniu macierzy do postaci diagonalnej
+(d) jest przykładem metody iteracyjnej niestacjonarnej
+
+142. Metody dekompozycji LU:
+(a) nie wymagają wyszukiwania elementu wiodącego
+(b) mają znacznie lepsze własności numeryczne niż metoda eliminacji Gaussa
+(c) należą do rodziny metod iteracyjnych niestacjonarnych
+(d) są przydatne tylko do rozwiązywania układów równań z macierzą symetryczną dodatnio określoną
+
+// (a) - w metodach PLU jest używany pivoting, chyba że robimy bez i mówimy że nie istnieje dekompozycja LU
+// (b) - sama dekompozycja to właściwie algorytm eliminacji Gaussa
+// (c) - nie jest metodą iteracyjną
+// (d) - nie tylko symetryczne dodatnio określone
+
+143. Wybierz właściwe uporządkowanie metod iteracyjnego rozwiązywania układów równań liniowych wg narastającej ich jakości:
+>> (a) Jacobiego, SR, SOR, Czebyszewa
+(b) Jacobiego, Czebyszewa, nadrelaksacji, Gaussa-Seidela
+(c) Jacobiego, nadrelaksacji, Czebyszewa, SR
+(d) SOR, Gaussa-Seidela, Czebyszewa, Jacobiego
+
+144. Należy stosować BLAS Level 3 ze względu na:
+>> (a) najkorzystniejszy stosunek liczby operacji zmiennoprzecinkowych do liczby odwołań do pamięci
+(b) to, że są dostosowane do architektur równoległych
+(c) wykorzystanie w nich efektywnych metod iteracyjnych typu SOR
+(d) wyjątkowo proste API
+
+(??) 145. Metody blokowe rozwiązywania układów równań nieliniowych
+(a) zawsze automatycznie konwertują macierz do postaci trójkątnej dolnej, co upraszcza dalsze operacje
+(b) redukują złożoność obliczeniową metodą "dziel i rządź"
+(c) są jedynymi metodami dostępnymi na architekturach równoległych
+(d) nie wymagają wyznaczania elementu wiodącego
+
+146. Wybierz właściwe uporządkowanie metod całkowania Monte Carlo wg narastającej ich jakości:
+(a) podstawowa, warstwowa, średniej ważonej, orzeł-reszka
+(b) podstawowa, średniej ważonej, orzeł-reszka, warstwowa
+(c) podstawowa, orzeł-reszka, warstwowa, średniej ważonej
+>> (d) orzeł-reszka, podstawowa, warstwowa, średniej ważonej
+
+147. Wybierz poprawne zdanie opisujące metody minimalizacji:
+(a) metoda największego spadku jest przykładem metody poszukiwania minimum globalnego
+>> (b) wzór Davidona-Fletchera-Powella jest podstawą metody zmiennej metryki
+(c) metoda sprzężonych kierunków jest przykładem ogólnej metody poszukiwania minimum globalnego
+(d) metoda simpleksów należy do metod gradientowych
+
+148. Metoda symulowanego wyżarzania:
+>> (a) to specjalna odmiana algorytmu Metropolisa
+(b) to specjalne sformułowanie problemu komiwojażera
+(c) to jedna z technik optymalizacji kombinatorycznej wykorzystująca metodę Newtona
+>> (d) to rodzina heurystycznych technik optymalizacji opartych na analogii z fizyką statystyczną układów losowych
+
+149. Szybka transformata Fouriera
+(a) ma złożoność obliczeniową O(n), gdzie n - liczba węzłów
+(b) jest możliwa tylko wtedy, gdy liczba punktów jest całkowitą potęgą 2
+(c) jest realizacją wzoru całkowego Fouriera na architekturach równoległych
+>> (d) polega na zamianie pojedynczej transformaty Fouriera na sumę transformat Fouriera
+
+150. Podejście wariacyjne do rozwiązywania równań różniczkowych:
+(a) uzmiennieniu położeń części punktów siatki
+(b) nie nadaje się do obliczeń numerycznych
+>> (c) polega na tym, że szukamy funkcji minimalizującej odpowiedni funkcjonał
+(d) polega na wprowadzeniu specjalnej siatki całkowania
+
+151. Wymagania stawiane schematom rozwiązywania numerycznego zagadnienia początkowego to:
+(a) algorytm powinien mieć względnie małe wskaźniki uwarunkowania
+(b) jawne uwzględnienie warunków brzegowych
+(c) wprowadzenie siatki przestrzennej zgodnej z siatką czasowa
+>> (d) zgodność aproksymacji różnicowej, dokładność, stabilność, efektywność czasowa i pamięciowa
+
+152. Metoda Cranka-Nicolsona to
+>> (a) numeryczny sposób rozwiązywania równań różniczkowych parabolicznych
+(b) technika wyszukiwania miejsc zerowych wielomianów
+?? (c) numeryczny sposób rozwiązywania równań różniczkowych eliptycznych
+(d) technika poszukiwania minimum lokalnego z uwzględnieniem drugich pochodnych
+
+153. Rola metod komputerowych w trójkącie "teoria eksperyment symulacja" to:
+(a) opracowywanie nowych praw o charakterze podstawowym dla danej dziedziny
+(b) realizacja symulacji w oparciu o prawa podstawowe, sugerowanie nowych eksperymentów, sugerowanie teorii
+(c) zastępowanie kosztownych eksperymentów i weryfikowanie teorii
+>> (d) realizacja symulacji w oparciu o prawa podstawowe, sugerowanie nowych eksperymentów, sterowanie eksperymentami, sugerowanie teorii
