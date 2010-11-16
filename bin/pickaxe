@@ -29,6 +29,10 @@ END_OF_BANNER
 	opts.on("-s", "--sorted", "Do not shuffle questions") do |v|
 		options[:sorted] = true
 	end
+	
+	opts.on("--select [NUMBER]", "Select certain amount of questions") do |v|
+		options[:select] = Integer(v)
+	end
   
   opts.on_tail("--version", "Show version") do
     puts "pickaxe version #{Pickaxe::VERSION}"
