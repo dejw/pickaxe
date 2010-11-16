@@ -6,7 +6,7 @@ Bundler.setup(:default)
 require 'active_support/all'
 
 module Pickaxe
-	VERSION = "0.1.2"
+	VERSION = "0.1.3"
 	
 	class PickaxeError < StandardError
 		attr_reader :status_code
