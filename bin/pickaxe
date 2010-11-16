@@ -30,7 +30,7 @@ END_OF_BANNER
 		options[:sorted] = true
 	end
 	
-	opts.on("--select [NUMBER]", "Select certain amount of questions") do |v|
+	opts.on("--select [NUMBER]", "Select certain number of questions") do |v|
 		options[:select] = Integer(v)
 	end
 	

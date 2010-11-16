@@ -1,0 +1,81 @@
+pickaxe(1) -- Uses given paths to generate a test from *.txt files
+==================================================================
+
+## SYNOPSIS
+
+`pickaxe` [<options>] <path> [, <path> ...]<br>
+`pickaxe` [<options>] `--builtin`<br>
+
+## DESCRIPTION
+
+Pickaxe provides a simple way to load, solve and rate tests (bundle of questions)
+written in simple text format.
+
+By default `pickaxe` loads any text file given as command line argument,
+and searches for any <txt> files when given path is a directory.
+
+The `--builtin` option allows to run test bundled in gem.
+
+## OPTIONS
+
+  * `-e`, `--extension`=<extension>:
+    Change the <extension> for files loaded automatically from directories 
+    (default is <txt>)
+    
+  * `-s`, `--sorted`:
+    Stop shuffling the questions
+    
+  * `--select`=<number>:
+    Select certain number of questions
+
+  * `--builtin`:
+    Load builtin tests rather than loading them from command line arguments.
+    
+  * `--list-builtin`:
+    List builtin test files
+
+  * `--version`:
+    Show pickaxe version and exit
+    
+## TEST FILE SYNTAX
+
+Tests (bundle of `questions`) that load `pickaxe` are stored in text file with
+simple format.
+
+`Questions` are separated by one or more blank lines. Each question
+has two parts: `content` and `answers`.
+
+`Content` is the very first line of question (for a very long questions You can
+wrap words in Your favourite editor).
+
+`Answers` are defined by remaining lines, one answer per line. Answer starts
+with `(index)` and optional `>>` which denotes the answer is correct. Answer's
+index can by absolutely anything, but by convention it should be short 
+(e.g `a`, `b`), because this is what user has to write to answer question.
+
+Lines that start with `#` or `//` are skipped (but does not treated as blank line).
+
+Example test file:
+
+    // C-like comments are allowed
+    1. To be or not to be?
+    (a) To be.
+    (b) Not to be.
+    >> (c) I do not know.
+    
+    # Ruby-like comments are also allowed
+    1. Number listed here does not matter at all (question will be listed as is).
+    (a) To be.
+    (b) Not to be.
+    >> (c) I do not know.
+	
+## BUGS AND FEATURE REQUESTS
+
+Please create an [issue](https://github.com/dejw/pickaxe/issues) when You found a bug. Thanks!
+
+## AUTHOR
+
+Dawid Fatyga
+
+## SEE ALSO
+

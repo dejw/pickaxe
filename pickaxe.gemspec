@@ -9,8 +9,8 @@ spec = Gem::Specification.new do |s|
   s.version = Pickaxe::VERSION
   s.summary = 'Pickaxe allows to run tests (bundle of questions) written in simple text format.'
   s.description = <<-EOF
-    Pickaxe provides a simple way to load, solve and rate tests (bundle of questions)
-    written in simple text format.
+Pickaxe provides a simple way to load, solve and rate tests (bundle of questions)
+written in simple text format.
   EOF
   
   s.executables = ['pickaxe']

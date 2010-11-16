@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv='content-type' value='text/html;charset=utf8'>
+  <meta name='generator' value='Ronn/v0.7.3 (http://github.com/rtomayko/ronn/tree/0.7.3)'>
+  <title>pickaxe(1) - Uses given paths to generate a test from *.txt files</title>
+  <style type='text/css' media='all'>
+  /* style: man */
+  body#manpage {margin:0}
+  .mp {max-width:100ex;padding:0 9ex 1ex 4ex}
+  .mp p,.mp pre,.mp ul,.mp ol,.mp dl {margin:0 0 20px 0}
+  .mp h2 {margin:10px 0 0 0}
+  .mp > p,.mp > pre,.mp > ul,.mp > ol,.mp > dl {margin-left:8ex}
+  .mp h3 {margin:0 0 0 4ex}
+  .mp dt {margin:0;clear:left}
+  .mp dt.flush {float:left;width:8ex}
+  .mp dd {margin:0 0 0 9ex}
+  .mp h1,.mp h2,.mp h3,.mp h4 {clear:left}
+  .mp pre {margin-bottom:20px}
+  .mp pre+h2,.mp pre+h3 {margin-top:22px}
+  .mp h2+pre,.mp h3+pre {margin-top:5px}
+  .mp img {display:block;margin:auto}
+  .mp h1.man-title {display:none}
+  .mp,.mp code,.mp pre,.mp tt,.mp kbd,.mp samp,.mp h3,.mp h4 {font-family:monospace;font-size:14px;line-height:1.42857142857143}
+  .mp h2 {font-size:16px;line-height:1.25}
+  .mp h1 {font-size:20px;line-height:2}
+  .mp {text-align:justify;background:#fff}
+  .mp,.mp code,.mp pre,.mp pre code,.mp tt,.mp kbd,.mp samp {color:#131211}
+  .mp h1,.mp h2,.mp h3,.mp h4 {color:#030201}
+  .mp u {text-decoration:underline}
+  .mp code,.mp strong,.mp b {font-weight:bold;color:#131211}
+  .mp em,.mp var {font-style:italic;color:#232221;text-decoration:none}
+  .mp a,.mp a:link,.mp a:hover,.mp a code,.mp a pre,.mp a tt,.mp a kbd,.mp a samp {color:#0000ff}
+  .mp b.man-ref {font-weight:normal;color:#434241}
+  .mp pre {padding:0 4ex}
+  .mp pre code {font-weight:normal;color:#434241}
+  .mp h2+pre,h3+pre {padding-left:0}
+  ol.man-decor,ol.man-decor li {margin:3px 0 10px 0;padding:0;float:left;width:33%;list-style-type:none;text-transform:uppercase;color:#999;letter-spacing:1px}
+  ol.man-decor {width:100%}
+  ol.man-decor li.tl {text-align:left}
+  ol.man-decor li.tc {text-align:center;letter-spacing:4px}
+  ol.man-decor li.tr {text-align:right;float:right}
+  </style>
+  <style type='text/css' media='all'>
+  /* style: 80c */
+  .mp {max-width:86ex}
+   
+  .man-navigation {left:101ex}
+  </style>
+  <style type='text/css' media='all'>
+  /* style: toc */
+  .man-navigation {display:block !important;position:fixed;top:0;left:113ex;height:100%;width:100%;padding:48px 0 0 0;border-left:1px solid #dbdbdb;background:#eee}
+  .man-navigation a,.man-navigation a:hover,.man-navigation a:link,.man-navigation a:visited {display:block;margin:0;padding:5px 2px 5px 30px;color:#999;text-decoration:none}
+  .man-navigation a:hover {color:#111;text-decoration:underline}
+  </style>
+</head>
+<!--
+  The following styles are deprecated and will be removed at some point:
+  div#man, div#man ol.man, div#man ol.head, div#man ol.man.
+
+  The .man-page, .man-decor, .man-head, .man-foot, .man-title, and
+  .man-navigation should be used instead.
+-->
+<body id='manpage'>
+  <div class='mp' id='man'>
+
+  <div class='man-navigation' style='display:none'>
+    <a href="#NAME">NAME</a>
+    <a href="#SYNOPSIS">SYNOPSIS</a>
+    <a href="#DESCRIPTION">DESCRIPTION</a>
+    <a href="#OPTIONS">OPTIONS</a>
+    <a href="#TEST-FILE-SYNTAX">TEST FILE SYNTAX</a>
+    <a href="#BUGS-AND-FEATURE-REQUESTS">BUGS AND FEATURE REQUESTS</a>
+    <a href="#AUTHOR">AUTHOR</a>
+    <a href="#SEE-ALSO">SEE ALSO</a>
+    </div>
+
+  <ol class='man-decor man-head man head'>
+    <li class='tl'>pickaxe(1)</li>
+    <li class='tc'>pickaxe manual</li>
+    <li class='tr'>pickaxe(1)</li>
+  </ol>
+
+  <h2 id="NAME">NAME</h2>
+<p class="man-name">
+  <code>pickaxe</code> - <span class="man-whatis">Uses given paths to generate a test from *.txt files</span>
+</p>
+
+<h2 id="SYNOPSIS">SYNOPSIS</h2>
+
+<p><code>pickaxe</code> [<var>options</var>] <var>path</var> [, <var>path</var> ...]<br />
+<code>pickaxe</code> [<var>options</var>] <code>--builtin</code><br /></p>
+
+<h2 id="DESCRIPTION">DESCRIPTION</h2>
+
+<p>Pickaxe provides a simple way to load, solve and rate tests (bundle of questions)
+written in simple text format.</p>
+
+<p>By default <code>pickaxe</code> loads any text file given as command line argument,
+and searches for any <var>txt</var> files when given path is a directory.</p>
+
+<p>The <code>--builtin</code> option allows to run test bundled in gem.</p>
+
+<h2 id="OPTIONS">OPTIONS</h2>
+
+<dl>
+<dt><code>-e</code>, <code>--extension</code>=<var>extension</var></dt><dd><p>Change the <var>extension</var> for files loaded automatically from directories
+(default is <var>txt</var>)</p></dd>
+<dt><code>-s</code>, <code>--sorted</code></dt><dd><p>Stop shuffling the questions</p></dd>
+<dt><code>--select</code>=<var>number</var></dt><dd><p>Select certain number of questions</p></dd>
+<dt><code>--builtin</code></dt><dd><p>Load builtin tests rather than loading them from command line arguments.</p></dd>
+<dt><code>--list-builtin</code></dt><dd><p>List builtin test files</p></dd>
+<dt><code>--version</code></dt><dd><p>Show pickaxe version and exit</p></dd>
+</dl>
+
+
+<h2 id="TEST-FILE-SYNTAX">TEST FILE SYNTAX</h2>
+
+<p>Tests (bundle of <code>questions</code>) that load <code>pickaxe</code> are stored in text file with
+simple format.</p>
+
+<p><code>Questions</code> are separated by one or more blank lines. Each question
+has two parts: <code>content</code> and <code>answers</code>.</p>
+
+<p><code>Content</code> is the very first line of question (for a very long questions You can
+wrap words in Your favourite editor).</p>
+
+<p><code>Answers</code> are defined by remaining lines, one answer per line. Answer starts
+with <code>(index)</code> and optional <code>&gt;&gt;</code> which denotes the answer is correct. Answer's
+index can by absolutely anything, but by convention it should be short
+(e.g <code>a</code>, <code>b</code>), because this is what user has to write to answer question.</p>
+
+<p>Lines that start with <code>#</code> or <code>//</code> are skipped (but does not treated as blank line).</p>
+
+<p>Example test file:</p>
+
+<pre><code>// C-like comments are allowed
+1. To be or not to be?
+(a) To be.
+(b) Not to be.
+&gt;&gt; (c) I do not know.
+
+# Ruby-like comments are also allowed
+1. Number listed here does not matter at all (question will be listed as is).
+(a) To be.
+(b) Not to be.
+&gt;&gt; (c) I do not know.
+</code></pre>
+
+<h2 id="BUGS-AND-FEATURE-REQUESTS">BUGS AND FEATURE REQUESTS</h2>
+
+<p>Please create an <a href="https://github.com/dejw/pickaxe/issues">issue</a> when You found a bug. Thanks!</p>
+
+<h2 id="AUTHOR">AUTHOR</h2>
+
+<p>Dawid Fatyga</p>
+
+<h2 id="SEE-ALSO">SEE ALSO</h2>
+
+
+  <ol class='man-decor man-foot man foot'>
+    <li class='tl'></li>
+    <li class='tc'>November 2010</li>
+    <li class='tr'>pickaxe(1)</li>
+  </ol>
+
+  </div>
+</body>
+</html>
