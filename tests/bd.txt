@@ -1,157 +1,118 @@
 67. Które wyrazenie SQL zwraca wszystkie wiersze tabeli 'Osoby' posortowane malejaco wedlug atrybutu 'Imie'?
-
 (a) SELECT * FROM Osoby SORT BY ' Imie ' DESC
 (b) SELECT * FROM Osoby SORT 'Imie' DESC
 (c) SELECT * FROM Osoby ORDER Imie DESC
 >>(d) SELECT * FROM Osoby ORDER BY Imie DESC
 
-
 68. Jak przy pomocy SQL mozna wstawic wartosc 'Kowalski' jako 'Nazwisko' do tabeli 'Osoby'?
-
 (a) INSERT INTO Osoby ('Kowalski') INTO Nazwisko
 (b) INSERT INTO Osoby VALUES ('Kowalski')
 >>(c) INSERT INTO Osoby (Nazwisko) VALUES ('Kowalski')
 (d) INSERT ('Kowalski') INTO Osoby (Nazwisko)
 
-
 69. Jak mozesz zmienic wartosc 'Kowalski' na 'Nowak' w atrybucie 'Nazwisko' w tabeli 'Osoby'?
-
 (a) MODIFY Osoby SET Nazwisko ='Nowak' WHERE Nazwisko ='Kowalski'
 (b) MODIFY Osoby SET Nazwisko ='Kowalski' INTO Nazwisko ='Nowak'
 (c) UPDATE Osoby SET Nazwisko ='Kowalski' INTO Nazwisko ='Nowak'
 >>(d) UPDATE Osoby SET Nazwisko ='Nowak' WHERE Nazwisko ='Kowalski'
 
-
 70. Jak mozna przy pomocy SQL uzyskac informacje o liczbie wierszy w tabeli 'Osoby'?
-
 (a) SELECT COLUMNS() FROM Osoby
 >>(b) SELECT COUNT(*) FROM Osoby
 (c) SELECT COLUMNS(*) FROM Osoby
 (d) SELECT COUNT() FROM Osoby
 
-
 71. Jak mozna przy pomocy SQL wybrac wszystkie wiersze z tabeli 'Osoby', w których wartosc atrybutu 'Imie' zaczyna sie od 'a'?
-
 >>(a) SELECT * FROM Osoby WHERE Imie LIKE 'a%'
 (b) SELECT * FROM Osoby WHERE Imie LIKE '%a'
 (c) SELECT * FROM Osoby WHERE Imie ='%a%'
 (d) SELECT * FROM Osoby WHERE Imie ='a'
 
-
 72. Która z ponizszych cech musi posiadac 'klucz wlasciwy':
-
 (a) jest automatycznie generowany przez System Zarzadzania Baza Danych
 (b) jego wartosc sklada sie tylko z jednego atrybutu
 >>(c) jego wartosc jednoznacznie wyznacza wiersz w danej tabeli
 >>(d) nie moze byc pomniejszony o zaden atrybut
 
-
 73. W cyklu zycia systemu baz danych bezposrednim efektem tworzenia modelu konceptualnego jest:
-
 (a) okreslenie relacji pomiedzy tabelami bazy danych
 >>(b) specyfikacja zakresu interesujacych nas danych i funkcji
 >>(c) opis systemu informacyjnego czyli rzeczywistosci
 (d) utworzenie schematu bazy danych
 
-
 74. Tabele typu slownikowego wprowadzamy do schematu relacyjnej bazy danych w celu:
-
 (a) ograniczenia uprawnien uzytkowników odnosnie dostepu do tych danych
 ??(b) tworzenia w formularzach pól typu combo
 >>(c) umozliwienia rozszerzania zbioru dopuszczalnych wartosci atrybutu poprzez aplikacje uzytkownika
 >>(d) zabezpieczenia integralnosci bazy danych
 
-
 75. Wykrywanie w projektowanych tabelach relacyjnej bazy danych tzw. anomalii ma na celu:
-
 (a) ustalenie atrybutów poprawnie zdefiniowanych kluczy obcych
 >>(b) wspomaganie procesu normalizacji relacyjnych baz danych
 ??(c) zaprojektowanie poprawnie zdefiniowanych tabel
 >>(d) ustalenie ewentualnej koniecznosci dekompozycji tych tabel
 
-
 76. Algebra relacji jest podstawa dla:
-
 >>(a) realizacji przez relacyjny SZBD operacji jezyka manipulacji danymi
 (b) budowy diagramów ERD
 ??(c) algorytmicznych jezyków relacyjnych baz danych
 (d) budowy diagramów DFD
 
-
 77. Które z ponizszych cech posiadaja tzw. widoki (view) :
-
 >>(a) ulatwiaja konstrukcje zapytan SQL do bazy danych
 (b) zabezpieczaja dane przed ich utrata w trakcie realizacji zlozonych transakcji
 (c) moga przyspieszac proces wyszukiwania danych przez SZBD
 >>(d) moga realizowac polityke ograniczania dostepu do danych
 
-
 78. Z jakim problemem trzeba sie uporac przy odwzorowaniu w schemacie relacyjnej bazy danych relacji typu n:m (wiele do wiele) :
-
 (a) trzeba uzyc dodatkowo widok (view)
 (b) dobrac odpowiedni klucz obcy w drugiej z tabel
 (c) zdefiniowac podwójne indeksowanie plików odpowiadajacych kazdej z tabel
 >>(d) trzeba zaprojektowac dodatkowa tabele
 
-
 79. Zdefiniowana klasa kasowania restrykcyjnego pomiedzy dwoma tablicami ma zwiazek z:
-
 (a) kasowaniem wierszy w tablicy 'nadrzednej'
 >>(b) kontrola SZBD majaca na celu niedopuszczenie do pewnych operacji na tych tablicach
 (c) kasowaniem wierszy w tablicy 'podporzadkowanej'
 (d) równoczesnym kasowaniem przez SZBD powiazanych z soba wierszy w obu tablicach
 
-
 80. W systemie zarzadzania baza danych rola optymalizatora zapytan jest:
-
 (a) optymalizacja wielkosci kodu realizujacego warstwe biznesowa
 ??(b) optymalizacja zajetosci pamieci zewnetrznej przez tablice bazy danych
 >>(c) optymalizacja organizacji plików pod katem szybkosci wyszukiwania w nich danych
 ??(d) optymalizowanie czasu dostepu do danych w bazie danych
 
-
 81. Które z ponizszych stwierdzen sa prawdziwe jesli dotycza systemów baz danych realizowanych w architekturze klient serwer:
-
 (a) mocno obciazaja siec w stosunku do systemów scentralizowanych
 >>(b) uniezalezniaja sposób realizacji aplikacji od serwera
 >>(c) pozwalaja klientom pracowac w róznych systemach operacyjnych
 (d) wymagaja co najmniej dwóch komputerów
 
-
 82. Dla realizacji systemu baz danych w wielowarstwowej architekturze klient / serwer charakterystycznymi warstwami sa:
-
 (a) warstwa komunikacyjna
 >>(b) warstwa aplikacji biznesowej
 (c) warstwa rozpraszania danych
 >>(d) warstwa prezentacji
 
-
 83. Systemy OLTP i OLAP róznia sie przede wszystkim:
-
 (a) stopniem szczególowosci przechowywanych danych
 >>(b) zakresem realizowanych funkcji uzytkowych
 >>(c) czasem reakcji na zapytanie
 ??(d) czasem potrzebnym na realizacje zlozonej transakcji aktualizacji danych
 
-
 84. Rola hurtowni danych jest:
-
 >>(a) przechowywanie danych w sposób scentralizowany
 (b) minimalizacja plików fizycznych przez ujednolicenie sposobu przechowywania danych
 >>(c) przygotowanie danych do szybkiej analizy
 (d) kontrola poprawnosci danych realizowana podczas wykonywania transakcji
 
-
 85. Modele danych w postaci gwiazdy i platka sniegu:
-
 >>(a) pozwalaja oddac sens zlozonej struktury danych
 (b) zapewniaja brak redundancji danych
 >>(c) ich implementacja przyspiesza analize danych
 (d) pomagaja utrzymac spójnosc danych
 
-
 86. Obiektowa baza danych pozwala na:
-
 (a) wydajna obsluge zapytan ad hoc
 (b) ujednolicenie modelu pojeciowego na wszystkich etapach tworzenia systemu
 (c) maksymalne wykorzystanie schematów ERD
