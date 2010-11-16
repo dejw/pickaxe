@@ -62,7 +62,6 @@
   .man-navigation should be used instead.
 -->
 <body id='manpage'>
-
   <div class='mp' id='man'>
 
   <div class='man-navigation' style='display:none'>
@@ -73,10 +72,14 @@
     <a href="#TEST-FILE-SYNTAX">TEST FILE SYNTAX</a>
     <a href="#SOURCE-CODE">SOURCE CODE</a>
     <a href="#AUTHOR">AUTHOR</a>
-  </div>
+    </div>
   
-	<a href="http://github.com/dejw/pickaxe"><img style="position: fixed; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
-	
+  <a href="http://github.com/dejw/pickaxe">
+  	<img style="position: fixed; top: 0; right: 0; border: 0;" 
+  		src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" 
+  		alt="Fork me on GitHub" />
+	</a>
+
   <ol class='man-decor man-head man head'>
     <li class='tl'>pickaxe(1)</li>
     <li class='tc'>pickaxe manual</li>
@@ -90,8 +93,7 @@
 
 <h2 id="SYNOPSIS">SYNOPSIS</h2>
 
-<p><code>pickaxe</code> [<var>options</var>] <var>path</var> [, <var>path</var> ...]<br />
-<code>pickaxe</code> [<var>options</var>] <code>--builtin</code><br /></p>
+<p><code>pickaxe</code> [<var>options</var>] <var>path</var> [, <var>path</var> ...]</p>
 
 <h2 id="DESCRIPTION">DESCRIPTION</h2>
 
@@ -101,8 +103,6 @@ written in simple text format.</p>
 <p>By default <code>pickaxe</code> loads any text file given as command line argument,
 and searches for any <var>txt</var> files when given path is a directory.</p>
 
-<p>The <code>--builtin</code> option allows to run test bundled in gem.</p>
-
 <h2 id="OPTIONS">OPTIONS</h2>
 
 <dl>
@@ -110,8 +110,6 @@ and searches for any <var>txt</var> files when given path is a directory.</p>
 (default is <var>txt</var>)</p></dd>
 <dt><code>-s</code>, <code>--sorted</code></dt><dd><p>Stop shuffling the questions</p></dd>
 <dt><code>--select</code>=<var>number</var></dt><dd><p>Select certain number of questions</p></dd>
-<dt><code>--builtin</code></dt><dd><p>Load builtin tests rather than loading them from command line arguments.</p></dd>
-<dt><code>--list-builtin</code></dt><dd><p>List builtin test files</p></dd>
 <dt><code>--version</code></dt><dd><p>Show pickaxe version and exit</p></dd>
 </dl>
 
