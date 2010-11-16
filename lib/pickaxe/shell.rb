@@ -1,6 +1,21 @@
 module Pickaxe
-   # Extracted from https://github.com/wycats/thor/blob/master/lib/thor/shell/color.rb
-   module Color
+	module Shell
+		# Extracted from https://github.com/wycats/thor/blob/master/lib/thor/shell/basic.rb
+		def self.dynamic_width
+		  (dynamic_width_stty.nonzero? || dynamic_width_tput)
+		end
+
+		def self.dynamic_width_stty
+		  %x{stty size 2>/dev/null}.split[1].to_i
+		end
+
+		def self.dynamic_width_tput
+		  %x{tput cols 2>/dev/null}.to_i
+		end  
+	end
+  
+  # Extracted from https://github.com/wycats/thor/blob/master/lib/thor/shell/color.rb
+	module Color
 		# Embed in a String to clear all previous ANSI sequences.
 		CLEAR = "\e[0m"
 		# The start of an ANSI bold sequence.
