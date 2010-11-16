@@ -79,12 +79,12 @@ END_OF_HELP
 		end
 		
 		def statistics!
-			stats = @test.statistics!(@answers)
+			@stats = @test.statistics!(@answers)
 			puts
 			puts "All: #{@questions.length}"
-			puts "Correct: #{stats[:correct]}".color(:green)
-			puts "Unanswered: #{stats[:unanswered]}".color(:yellow)
-			puts "Incorrect: #{stats[:incorrect]}".color(:red)
+			stat :correct, :green
+			stat :unanswered, :yellow
+			stat :incorrect, :red
 		end
 		
 		def error(msg)
@@ -95,6 +95,11 @@ END_OF_HELP
 		def prompt?(p = "? ")
 			print p
 			$stdin.gets
+		end
+	protected
+		def stat(name, color)
+			value = @stats[name.to_s.downcase.to_sym]
+			puts "#{name.to_s.capitalize}: #{value} (#{value/@questions.length.to_f * 100}%%)".color(color)
 		end
 	end
 end
