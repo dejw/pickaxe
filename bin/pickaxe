@@ -1,1 +1,46 @@
 #!/usr/bin/env ruby
+
+require 'optparse'
+
+$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../lib"))
+
+require 'pickaxe'
+
+# TODO:
+# 	time
+# 	syntax check only
+# 	default -> warns + ignore, options for exception on syntax error ;-)
+# 	random or sorted
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = <<END_OF_BANNER
+Usage: 
+  pick path [, path ...]
+  pickaxe path [, path ...]
+  
+Uses given paths (files or directories) to generate a test from *.txt files.
+END_OF_BANNER
+  
+  opts.separator ""
+  opts.on("-e", "--ext [EXTENSION]", "Use files with given EXTENSION (default 'txt')") do |extension|
+    options[:extension] = extension
+  end
+  
+  opts.on_tail("--version", "Show version") do
+    puts "pickaxe version #{Pickaxe::VERSION}"
+    exit
+  end
+  
+	opts.on_tail("-h", "--help", "Show this message") do
+		puts opts
+		exit
+	end
+end.parse!
+
+begin
+	Pickaxe::Main.new(ARGV, options)
+rescue Pickaxe::PickaxeError => e
+	$stderr.puts("pickaxe: " + e.message)
+	exit(e.status_code)
+end
