@@ -19,6 +19,7 @@ spec = Gem::Specification.new do |s|
 
   s.authors = 'Dawid Fatyga'
   s.email = "dawid.fatyga@gmail.com"
+  s.homepage = "https://github.com/dejw/pickaxe"
   
   s.add_dependency('bundler', '>= 1.0.3')
   s.add_bundler_dependencies
