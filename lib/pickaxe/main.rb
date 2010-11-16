@@ -8,11 +8,12 @@ module Pickaxe
 			@questions = @test.shuffled_questions
 			@answers = Hash.new([])
 			
+			@started_at = Time.now			
 			@current_index = 0
 			while @current_index < @questions.length do
 				@question = @questions[@current_index]
 				
-				puts "#{@question.header(@current_index)}\n"
+				puts "#{@current_index+1} / #{@questions.length}\t\tFrom: #{@question.file}\t\tTime spent: #{spent?}"
 				puts @question.answered(@answers[@question])
 				
 				until (line = prompt?).nil? or command(line)
@@ -37,7 +38,7 @@ module Pickaxe
 		def command(line)
 			case line
 			when /^\s*@\s*(.+)/	then # @ question
-				@current_index = Integer($1)
+				@current_index = Integer($1) -1
 				true
 			when /<+/ then
 				if @current_index > 0
@@ -80,7 +81,9 @@ END_OF_HELP
 		
 		def statistics!
 			@stats = @test.statistics!(@answers)
-			puts
+			
+			puts			
+			puts "Time: #{spent?}"
 			puts "All: #{@questions.length}"
 			stat :correct, :green
 			stat :unanswered, :yellow
@@ -95,6 +98,10 @@ END_OF_HELP
 		def prompt?(p = "? ")
 			print p
 			$stdin.gets
+		end
+		
+		def spent?
+			(Time.now - @started_at).to_i.to_duration			
 		end
 	protected
 		def stat(name, color)
