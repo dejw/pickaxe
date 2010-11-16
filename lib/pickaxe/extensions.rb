@@ -10,4 +10,8 @@ class String
 			line.length > options[:line_width] ? line.gsub(/(.{1,#{options[:line_width]}})(\s+|$)/, "\\1\n").strip : line
 		end * "\n"
 	end
+	
+	def color(name, bold=false)
+		Pickaxe::Color.set_color(self, name, bold)
+	end
 end

@@ -74,11 +74,17 @@ module Pickaxe
 		
 		def answered(indices)
 			"#{self.content.word_wrap}\n\n" + self.answers.collect do |answer|
-				if indices.include?(answer.index)
-					">> "
-				else
-					"   "
-				end + answer.to_s
+				selected = indices.include?(answer.index)
+				line = (selected ? ">> " : "   ") + answer.to_s
+				unless indices.blank?
+					if selected and answer.correctness
+						line.color(:green)
+					elsif not selected and answer.correctness
+						line.color(:yellow)
+					elsif selected and not answer.correctness
+						line.color(:red)
+					end
+				end || line				
 			end.join("\n") + "\n\n"
 		end
 	end

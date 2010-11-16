@@ -16,8 +16,8 @@ module Pickaxe
 				until (line = prompt?).nil? or command(line)
 					# empty
 				end
-				$stdout.puts
-				break if line.nil?
+											
+				break if puts or line.nil?
 			end
 			
 			statistics!
@@ -81,7 +81,7 @@ END_OF_HELP
 		end
 		
 		def error(msg)
-			$stderr.puts("! " + msg)
+			$stderr.puts(("! " + msg).color(:red))
 			false
 		end
 		
