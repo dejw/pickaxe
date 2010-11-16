@@ -16,6 +16,7 @@ module Pickaxe
   end
   
   module Shell
+  	# Extracted from https://github.com/wycats/thor/blob/master/lib/thor/shell/basic.rb
   	def self.dynamic_width
       (dynamic_width_stty.nonzero? || dynamic_width_tput)
     end
@@ -31,6 +32,7 @@ module Pickaxe
 end
 
 # TODO: use autoload
+require 'pickaxe/color'
 require 'pickaxe/extensions'
 require 'pickaxe/main'
 require 'pickaxe/test'
