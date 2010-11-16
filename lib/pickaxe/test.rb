@@ -83,10 +83,6 @@ module Pickaxe
 			Question.new(file, content, answers.collect {|answer| Answer.parse(answer) })
 		end
 		
-		def header(index)
-			"File: #{file}\tIndex: #{index}"
-		end
-		
 		def answered(indices)
 			"#{self.content.word_wrap}\n\n" + self.answers.collect do |answer|
 				selected = indices.include?(answer.index)

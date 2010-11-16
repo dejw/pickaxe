@@ -15,3 +15,13 @@ class String
 		Pickaxe::Color.set_color(self, name, bold)
 	end
 end
+
+class Fixnum
+	def to_duration
+		s = self
+	  m = s / 60
+	  s -= m * 60
+	
+	  [m, s].compact.zip(["m", "s"]).collect(&:join).join(" ")
+	end
+end
