@@ -10,7 +10,6 @@ require 'pickaxe'
 # 	time
 # 	syntax check only
 # 	default -> warns + ignore, options for exception on syntax error ;-)
-# 	random or sorted
 
 options = {}
 OptionParser.new do |opts|
@@ -26,6 +25,10 @@ END_OF_BANNER
   opts.on("-e", "--ext [EXTENSION]", "Use files with given EXTENSION (default 'txt')") do |extension|
     options[:extension] = extension
   end
+  
+	opts.on("-s", "--sorted", "Do not shuffle questions") do |v|
+		options[:sorted] = true
+	end
   
   opts.on_tail("--version", "Show version") do
     puts "pickaxe version #{Pickaxe::VERSION}"
