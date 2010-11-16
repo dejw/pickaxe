@@ -53,16 +53,26 @@ module Pickaxe
 		end
 		
 		def shuffled_questions
-			if @options[:sorted]
+			questions = if @options[:sorted]
 				@questions
 			else
 				@questions.shuffle			
-			end		
+			end
+			
+			@selected = if @options[:select]
+				questions[0...(@options[:select])]
+			else
+				questions
+			end			
+		end
+		
+		def selected
+			@selected ||= @questions
 		end
 		
 		def statistics!(answers)
 			Hash.new(0).tap do |statistics|
-				@questions.each do |question|
+				selected.each do |question|
 					given = answers[question]
 					if question.correct?(given)
 						statistics[:correct] += 1
