@@ -1,8 +1,12 @@
 require 'bundler'
 
+$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/lib"))
+
+require 'pickaxe'
+
 spec = Gem::Specification.new do |s|
   s.name = 'Pickaxe'
-  s.version = '0.1'
+  s.version = Pickaxe::VERSION
   s.summary = 'Pickaxe allows to run tests (bundle of questions) written in simple text format.'
   s.description = <<-EOF
     Pickaxe provides a simple way to load, solve and rate tests (bundle of questions)
@@ -12,7 +16,6 @@ spec = Gem::Specification.new do |s|
   s.executables = ['pickaxe']
 	s.required_ruby_version = '>= 1.8.7'
 	s.extra_rdoc_files = ['README.markdown']
-
 
   s.authors = 'Dawid Fatyga'
   s.email = "dawid.fatyga@gmail.com"

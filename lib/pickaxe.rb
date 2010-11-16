@@ -14,11 +14,12 @@ module Pickaxe
       define_method(:status_code) { code }
     end
   end
+  
+  autoload :Shell, 'pickaxe/shell'
+  autoload :Color, 'pickaxe/color'
+	autoload :Main, 'pickaxe/main'
+	autoload :Test, 'pickaxe/test'
 end
 
-# TODO: use autoload
-require 'pickaxe/shell'
 require 'pickaxe/extensions'
-require 'pickaxe/main'
-require 'pickaxe/test'
 
