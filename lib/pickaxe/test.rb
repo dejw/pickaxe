@@ -24,14 +24,14 @@ module Pickaxe
 		class MissingAnswers < PickaxeError; status_code(2) ; end
 		class BadAnswer < PickaxeError; status_code(3) ; end
 		
-		def initialize(*files)
-			options = files.extract_options!
+		def initialize(options, *files)
+			@options = options
 			@files = files.collect do |file_or_directory|
 				raise PathError, "file or directory '#{file_or_directory}' does not exist" unless File.exist?(file_or_directory)
 				if File.file?(file_or_directory)
 					file_or_directory
 				else
-					Dir.glob("#{file_or_directory}/*.#{options[:extension] || "txt"}")
+					Dir.glob("#{file_or_directory}/*.#{@options[:extension] || "txt"}")
 				end				
 			end.flatten
 			
@@ -53,7 +53,11 @@ module Pickaxe
 		end
 		
 		def shuffled_questions
-			@questions.shuffle
+			if @options[:sorted]
+				@questions
+			else
+				@questions.shuffle			
+			end		
 		end
 		
 		def statistics!(answers)

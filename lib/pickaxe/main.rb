@@ -1,8 +1,10 @@
 module Pickaxe
 	class Main
+		class NoTests < PickaxeError; status_code(1) ; end
+		
 		def initialize(paths, options = {})
-			raise ArgumentError, "no tests to run" if paths.empty?
-			@test = Test.new(*paths)			
+			raise NoTests, "no tests to run" if paths.empty?
+			@test = Test.new(options, *paths)
 			@questions = @test.shuffled_questions
 			@answers = Hash.new([])
 			
