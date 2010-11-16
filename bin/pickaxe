@@ -33,15 +33,7 @@ END_OF_BANNER
 	opts.on("--select [NUMBER]", "Select certain number of questions") do |v|
 		options[:select] = Integer(v)
 	end
-	
-	opts.on("-b", "--builtin", "Runs builtin tests") do |v|
-		options[:builtin] = true
-	end
-	
-	opts.on("--list-builtin", "Lists builtin test names") do |v|
-		options[:list_builtin] = true
-	end
-  
+	  
   opts.on_tail("--version", "Show version") do
     puts "pickaxe version #{Pickaxe::VERSION}"
     exit
@@ -53,21 +45,8 @@ END_OF_BANNER
 	end
 end.parse!
 
-if options[:list_builtin]
-	puts(Dir.glob(File.dirname(__FILE__) + "/../tests/*.#{options[:extension] || "txt"}").collect do |file|
-		File.basename(file)
-	end.join(" "))
-	exit
-end
-
-paths = if options[:builtin]
-	File.expand_path(File.dirname(__FILE__) + "/../tests")
-else
-	ARGV
-end
-	
 begin
-	Pickaxe::Main.new(paths, options)
+	Pickaxe::Main.new(ARGV, options)
 rescue Pickaxe::PickaxeError => e
 	$stderr.puts(("! " + e.message).color(:red))
 	exit(e.status_code)

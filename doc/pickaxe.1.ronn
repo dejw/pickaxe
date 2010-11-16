@@ -3,8 +3,7 @@ pickaxe(1) -- Uses given paths to generate a test from *.txt files
 
 ## SYNOPSIS
 
-`pickaxe` [<options>] <path> [, <path> ...]<br>
-`pickaxe` [<options>] `--builtin`<br>
+`pickaxe` [<options>] <path> [, <path> ...]
 
 ## DESCRIPTION
 
@@ -13,8 +12,6 @@ written in simple text format.
 
 By default `pickaxe` loads any text file given as command line argument,
 and searches for any <txt> files when given path is a directory.
-
-The `--builtin` option allows to run test bundled in gem.
 
 ## OPTIONS
 
@@ -27,12 +24,6 @@ The `--builtin` option allows to run test bundled in gem.
     
   * `--select`=<number>:
     Select certain number of questions
-
-  * `--builtin`:
-    Load builtin tests rather than loading them from command line arguments.
-    
-  * `--list-builtin`:
-    List builtin test files
 
   * `--version`:
     Show pickaxe version and exit
