@@ -77,7 +77,12 @@ END_OF_HELP
 		end
 		
 		def statistics!
-			puts "Bye!"
+			stats = @test.statistics!(@answers)
+			puts
+			puts "All: #{@questions.length}"
+			puts "Correct: #{stats[:correct]}".color(:green)
+			puts "Unanswered: #{stats[:unanswered]}".color(:yellow)
+			puts "Incorrect: #{stats[:incorrect]}".color(:red)
 		end
 		
 		def error(msg)
