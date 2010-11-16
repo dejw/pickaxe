@@ -69,13 +69,15 @@ Example test file:
     (b) Not to be.
     >> (c) I do not know.
 	
-## BUGS AND FEATURE REQUESTS
+## SOURCE CODE
+
+You can grab [source code](https://github.com/dejw/pickaxe) with git by typing:
+
+    git clone git://github.com/dejw/pickaxe
 
 Please create an [issue](https://github.com/dejw/pickaxe/issues) when You found a bug. Thanks!
 
 ## AUTHOR
 
 Dawid Fatyga
-
-## SEE ALSO
 
