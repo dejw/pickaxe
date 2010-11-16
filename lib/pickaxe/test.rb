@@ -68,16 +68,16 @@ module Pickaxe
 			Question.new(file, content, answers.collect {|answer| Answer.parse(answer) })
 		end
 		
-		def header
-			"File: #{file}"
+		def header(index)
+			"File: #{file}\tIndex: #{index}"
 		end
 		
 		def answered(indices)
 			"#{self.content.word_wrap}\n\n" + self.answers.collect do |answer|
 				if indices.include?(answer.index)
-					"@ "
+					">> "
 				else
-					"  "
+					"   "
 				end + answer.to_s
 			end.join("\n") + "\n\n"
 		end

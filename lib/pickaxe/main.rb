@@ -10,7 +10,7 @@ module Pickaxe
 			while @current_index < @questions.length do
 				@question = @questions[@current_index]
 				
-				puts "#{@question.header}\n"
+				puts "#{@question.header(@current_index)}\n"
 				puts @question.answered(@answers[@question])
 				
 				until (line = prompt?).nil? or command(line)
@@ -30,11 +30,12 @@ module Pickaxe
 		# 	>+						moves forward one question
 		# 	! a [ b ...]  answers the question and forces to show correct answers
 		# 	a [ b ...]    answers the question
+		#   ?							shows help
 		#
 		def command(line)
 			case line
-			when /^\s*@\s*(.*)/	then # @ question
-				@current_index = @questions.index(@test.find($1))
+			when /^\s*@\s*(.+)/	then # @ question
+				@current_index = Integer($1)
 				true
 			when /<+/ then
 				if @current_index > 0
@@ -53,8 +54,21 @@ module Pickaxe
 			when "\n" then
 				@current_index += 1
 				true
-			when /^\s*!\s*(.*)/ then
+			when /^\s*!\s*(.+)/ then
 				raise NotImplementedError
+			when /\?/ then
+				puts <<END_OF_HELP
+				
+Available commands (whitespace does not matter):
+  @ question   jumps to given question
+  <            moves back one question
+  >            moves forward one question
+    a [ b ...] answers the question  
+  ! a [ b ...] answers the question and forces reveal correct answers
+  ?            shows help
+  
+END_OF_HELP
+				false
 			else
 				@answers[@question] = line.split(/\s+/).collect(&:strip)
 				@current_index += 1
