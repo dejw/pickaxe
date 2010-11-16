@@ -1,4 +1,9 @@
 module Pickaxe
+
+	class PathError < PickaxeError; status_code(1) ; end
+	class MissingAnswers < PickaxeError; status_code(2) ; end
+	class BadAnswer < PickaxeError; status_code(3) ; end
+		
 	#
 	# Test is a file in which questions are separated by a blank line.
 	# Each question has content (first line), and answers remaining lines.
@@ -19,11 +24,7 @@ module Pickaxe
 		
 		# Ruby-comments and C-comments
 		COMMENTS_RE = /^#.*|^\/\/.*/
-		
-		class PathError < PickaxeError; status_code(1) ; end
-		class MissingAnswers < PickaxeError; status_code(2) ; end
-		class BadAnswer < PickaxeError; status_code(3) ; end
-		
+				
 		def initialize(options, *files)
 			@options = options
 			@files = files.collect do |file_or_directory|

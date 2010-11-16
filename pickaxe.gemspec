@@ -16,7 +16,7 @@ written in simple text format.
   s.executables = ['pickaxe']
   s.files = Dir['lib/**/*.rb'] + Dir['bin/*']
 	s.required_ruby_version = '>= 1.8.7'
-	s.extra_rdoc_files = ['README.markdown', 'Gemfile']
+	s.extra_rdoc_files = ['README.markdown', 'Gemfile', 'Gemfile.lock']
 
   s.authors = 'Dawid Fatyga'
   s.email = "dawid.fatyga@gmail.com"

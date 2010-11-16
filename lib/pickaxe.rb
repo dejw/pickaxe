@@ -1,9 +1,8 @@
 require "rubygems"
-require "bundler"
+require "bundler/setup"
+Bundler.require(:default)
 
-Bundler.setup(:default)
-
-require 'active_support/all'
+$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
 
 module Pickaxe
 	VERSION = "0.2.1"
