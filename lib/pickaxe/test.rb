@@ -56,8 +56,19 @@ module Pickaxe
 			@questions.shuffle
 		end
 		
-		def find(index)
-			raise NotImplementedError
+		def statistics!(answers)
+			Hash.new(0).tap do |statistics|
+				@questions.each do |question|
+					given = answers[question]
+					if question.correct?(given)
+						statistics[:correct] += 1
+					elsif given.blank?
+						statistics[:unanswered] += 1
+					else
+						statistics[:incorrect] += 1
+					end
+				end
+			end
 		end
 	end
 		
@@ -86,6 +97,10 @@ module Pickaxe
 					end
 				end || line				
 			end.join("\n") + "\n\n"
+		end
+		
+		def correct?(given)
+			given.sort == answers.select(&:correctness).collect(&:index).sort
 		end
 	end
 	
