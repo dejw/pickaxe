@@ -34,6 +34,10 @@ END_OF_BANNER
 		options[:select] = Integer(v)
 	end
 	  
+	opts.on("--full-test", "Checks test after all questions are answered") do |v|
+		options[:full_test] = true
+	end
+	
   opts.on_tail("--version", "Show version") do
     puts "pickaxe version #{Pickaxe::VERSION}"
     exit

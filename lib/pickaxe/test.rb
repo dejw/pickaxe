@@ -24,15 +24,14 @@ module Pickaxe
 		
 		# Ruby-comments and C-comments
 		COMMENTS_RE = /^#.*|^\/\/.*/
-				
-		def initialize(options, *files)
-			@options = options
+		
+		def initialize(*files)
 			@files = files.collect do |file_or_directory|
 				raise PathError, "file or directory '#{file_or_directory}' does not exist" unless File.exist?(file_or_directory)
 				if File.file?(file_or_directory)
 					file_or_directory
 				else
-					Dir.glob("#{file_or_directory}/*.#{@options[:extension] || "txt"}")
+					Dir.glob("#{file_or_directory}/*.#{Main.options[:extension] || "txt"}")
 				end				
 			end.flatten
 			
@@ -54,14 +53,14 @@ module Pickaxe
 		end
 		
 		def shuffled_questions
-			questions = if @options[:sorted]
+			questions = if Main.options[:sorted]
 				@questions
 			else
 				@questions.shuffle			
 			end
 			
-			@selected = if @options[:select]
-				questions[0...(@options[:select])]
+			@selected = if Main.options[:select]
+				questions[0...(Main.options[:select])]
 			else
 				questions
 			end			
@@ -98,7 +97,8 @@ module Pickaxe
 			"#{self.content.word_wrap}\n\n" + self.answers.collect do |answer|
 				selected = indices.include?(answer.index)
 				line = (selected ? ">> " : "   ") + answer.to_s
-				unless indices.blank?
+				
+				unless (indices.blank? and Main.options[:force_show_answers]) or Main.options[:full_test]
 					if selected and answer.correctness
 						line.color(:green)
 					elsif not selected and answer.correctness
@@ -111,7 +111,19 @@ module Pickaxe
 		end
 		
 		def correct?(given)
-			given.sort == answers.select(&:correctness).collect(&:index).sort
+			given.sort == correct_answers
+		end
+		
+		def correct_answers
+			answers.select(&:correctness).collect(&:index).sort
+		end
+		
+		def check?(given)
+			if correct?(given)
+				"Correct!".color(:green)
+			else
+				"Incorrect! Correct was: #{correct_answers.join(", ")}".color(:red)
+			end
 		end
 	end
 	
