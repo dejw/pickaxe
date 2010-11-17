@@ -71,7 +71,7 @@ END_OF_HELP
 			when "\n" then
 				if Main.options[:full_test] and @question.nil?
 					Main.options[:full_test] = false
-					Main.options[:force_show_answers] = false
+					Main.options[:force_show_answers] = true
 					
 					@current_index = 0
 				else				
