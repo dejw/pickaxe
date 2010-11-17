@@ -98,7 +98,7 @@ module Pickaxe
 				selected = indices.include?(answer.index)
 				line = (selected ? ">> " : "   ") + answer.to_s
 				
-				unless (indices.blank? and Main.options[:force_show_answers]) or Main.options[:full_test]
+				if Main.options[:force_show_answers] or (not indices.blank? and not Main.options[:full_test]) then
 					if selected and answer.correctness
 						line.color(:green)
 					elsif not selected and answer.correctness
