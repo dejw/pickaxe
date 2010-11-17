@@ -4,6 +4,13 @@ module Pickaxe
 		
 		cattr_accessor :options
 		
+		END_OF_TEST_MESSAGE = <<END_OF_TEST
+This is the end of this test and You can now jump back to
+any question and check (or change) Your answers.
+
+Hit [ENTER] to rate the test.
+END_OF_TEST
+
 		def initialize(paths, options = {})
 			raise NoTests, "no tests to run" if paths.empty?
 			
@@ -11,10 +18,10 @@ module Pickaxe
 			
 			@test = Test.new(*paths)
 			@questions = @test.shuffled_questions
-			@answers = Hash.new([])
-						
+			@answers = Hash.new([])					
 			@started_at = Time.now			
 			@current_index = 0
+			
 			while @current_index < @questions.length + (Main.options[:full_test] ? 1 : 0) do
 				@question = @questions[@current_index]
 				
@@ -22,12 +29,7 @@ module Pickaxe
 					puts "#{@current_index+1} / #{@questions.length}\t\tFrom: #{@question.file}\t\tTime spent: #{spent?}"
 					puts @question.answered(@answers[@question])
 				else
-					puts <<END_OF_HELP
-This is the end of this test and You can now jump back to
-any question and check (or change) Your answers.
-
-Hit [ENTER] to rate the test.
-END_OF_HELP
+					puts END_OF_TEST_MESSAGE
 				end
 				
 				until (line = prompt?).nil? or command(line)
@@ -42,10 +44,9 @@ END_OF_HELP
 		
 		#
 		# Available commands
-		# 	^ question 		jumps to given question
+		# 	@ question 		jumps to given question
 		# 	<+						moves back one question
 		# 	>+						moves forward one question
-		# 	! a [ b ...]  answers the question and forces to show correct answers
 		# 	a [ b ...]    answers the question
 		#   ?							shows help
 		#
@@ -78,8 +79,6 @@ END_OF_HELP
 					@current_index += 1
 				end
 				true
-			when /^\s*!\s*(.+)/ then
-				raise NotImplementedError
 			when /\?/ then
 				puts <<END_OF_HELP
 				
