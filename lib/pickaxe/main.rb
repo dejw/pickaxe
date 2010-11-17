@@ -86,8 +86,7 @@ Available commands (whitespace does not matter):
   @ question   jumps to given question
   <            moves back one question
   >            moves forward one question
-    a [ b ...] answers the question  
-  ! a [ b ...] answers the question and forces reveal correct answers
+  a [ b ...]   answers the question
   ?            shows help
   
 END_OF_HELP
