@@ -1,6 +1,6 @@
 require "rubygems"
 require "bundler/setup"
-Bundler.require(:default)
+require "active_support/all"
 
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
 
