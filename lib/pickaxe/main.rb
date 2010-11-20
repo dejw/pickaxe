@@ -126,7 +126,7 @@ END_OF_HELP
 	protected
 		def stat(name, color)
 			value = @stats[name.to_s.downcase.to_sym]
-			puts "#{name.to_s.capitalize}: #{value} (#{value/@questions.length.to_f * 100}%%)".color(color)
+			puts format("#{name.to_s.capitalize}: #{value} (%g%%)", value/@questions.length.to_f * 100).color(color)
 		end
 	end
 end
