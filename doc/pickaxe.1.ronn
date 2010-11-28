@@ -26,10 +26,13 @@ and searches for any <txt> files when given path is a directory.
     Select certain number of questions
     
   * `--strict`:
-    Quit after syntax error in test file
+    Quit after first syntax error in test file
     
   * `--full-test`:
     Do not reveal correct answers until the end of test
+    
+  * `--syntax-check`:
+    Check syntax only - do not run test
 
   * `--version`:
     Show pickaxe version and exit

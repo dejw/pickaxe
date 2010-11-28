@@ -41,6 +41,10 @@ END_OF_BANNER
 		options[:strict] = true
 	end
 	
+	opts.on_tail("--syntax-check", "Check syntax only - do not run test") do
+    options[:syntax_check] = true
+  end
+  
   opts.on_tail("--version", "Show version") do
     puts "pickaxe version #{Pickaxe::VERSION}"
     exit

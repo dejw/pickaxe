@@ -5,6 +5,7 @@ module Pickaxe
 	class TestSyntaxError < PickaxeError; status_code(2) ; end
 	class MissingAnswers < TestSyntaxError; status_code(2) ; end
 	class BadAnswer < TestSyntaxError; status_code(3) ; end
+	class NoCorrectAnswer < TestSyntaxError; status_code(3) ; end
 		
 	class TestLine < String
 		attr_accessor :index
@@ -43,7 +44,7 @@ module Pickaxe
 				else
 					Dir.glob("#{file_or_directory}/*.#{Main.options[:extension] || "txt"}")
 				end				
-			end.flatten
+			end.flatten.collect(&:squeeze)
 			
 			@questions = []
 			@files.each do |file|
@@ -114,8 +115,11 @@ module Pickaxe
 				content << answers.shift
 			end
 			
-			raise MissingAnswers, "#{file}: line #{content.first.index}: question '#{content.first.truncate(20)}' has no answers" if answers.blank?
-			Question.new(file, content, answers.collect {|answer| Answer.parse(file, answer) })
+			error_template = "#{file}: line #{content.first.index}: question '#{content.first.truncate(20)}' %s"
+			raise MissingAnswers, (error_template % "has no answers") if answers.blank?
+			Question.new(file, content, answers.collect {|answer| Answer.parse(file, answer) }).tap do |q|
+				raise NoCorrectAnswer, (error_template % "has no correct answer") if q.correct_answers.blank?
+			end
 		end
 		
 		def answered(indices)

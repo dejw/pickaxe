@@ -14,9 +14,10 @@ END_OF_TEST
 		def initialize(paths, options = {})
 			raise NoTests, "no tests to run" if paths.empty?
 			
-			Main.options = options
-			
+			Main.options = options			
 			@test = Test.new(*paths)
+			return if options[:syntax_check]
+			
 			@questions = @test.shuffled_questions
 			@answers = Hash.new([])					
 			@started_at = Time.now			
