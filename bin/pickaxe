@@ -15,7 +15,6 @@ options = {}
 OptionParser.new do |opts|
   opts.banner = <<END_OF_BANNER
 Usage: 
-  pick path [, path ...]
   pickaxe path [, path ...]
   
 Uses given paths (files or directories) to generate a test from *.txt files.
@@ -36,6 +35,10 @@ END_OF_BANNER
 	  
 	opts.on("--full-test", "Checks test after all questions are answered") do |v|
 		options[:full_test] = true
+	end
+	
+	opts.on("--strict", "Quit on syntax error in test file") do |v|
+		options[:strict] = true
 	end
 	
   opts.on_tail("--version", "Show version") do

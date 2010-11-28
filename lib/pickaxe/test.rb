@@ -1,8 +1,18 @@
 module Pickaxe
 
 	class PathError < PickaxeError; status_code(1) ; end
-	class MissingAnswers < PickaxeError; status_code(2) ; end
-	class BadAnswer < PickaxeError; status_code(3) ; end
+	
+	class TestSyntaxError < PickaxeError; status_code(2) ; end
+	class MissingAnswers < TestSyntaxError; status_code(2) ; end
+	class BadAnswer < TestSyntaxError; status_code(3) ; end
+		
+	class TestLine < String
+		attr_accessor :index
+		def initialize(itself, index)
+			super(itself)
+			self.index = index + 1
+		end
+	end
 		
 	#
 	# Test is a file in which questions are separated by a blank line.
@@ -38,10 +48,21 @@ module Pickaxe
 			@questions = []
 			@files.each do |file|
 				File.open(file) do |f|
-					lines = f.readlines.collect(&:strip)
+					lines = f.readlines.collect(&:strip).enum_with_index.collect do |line, index|
+						TestLine.new(line, index)
+					end
+					
 					lines = lines.reject {|line| line =~ COMMENTS_RE }
 					lines.split("").reject(&:blank?).each do |question|
-						@questions.push(Question.parse(file, question))
+						begin
+							@questions.push(Question.parse(file, question))
+						rescue TestSyntaxError => e
+							if Main.options[:strict]						
+								raise e 
+							else
+								$stderr.puts(e.message.color(:red))
+							end
+						end					
 					end
 				end
 			end
@@ -88,13 +109,18 @@ module Pickaxe
 		
 	class Question < Struct.new(:file, :content, :answers)
 		def self.parse(file, answers)
-			content = answers.shift
-			raise MissingAnswers, "question '#{content.truncate(20)}' has no answers'" if answers.blank?
-			Question.new(file, content, answers.collect {|answer| Answer.parse(answer) })
+			content = []
+			until answers.first.nil? or Answer::RE.match(answers.first)
+				content << answers.shift
+			end
+			
+			raise MissingAnswers, "#{file}: line #{content.first.index}: question '#{content.first.truncate(20)}' has no answers" if answers.blank?
+			Question.new(file, content, answers.collect {|answer| Answer.parse(file, answer) })
 		end
 		
 		def answered(indices)
-			"#{self.content.word_wrap}\n\n" + self.answers.collect do |answer|
+			content = self.content.collect(&:word_wrap).join("\n")
+			"#{content}\n\n" + self.answers.collect do |answer|
 				selected = indices.include?(answer.index)
 				line = (selected ? ">> " : "   ") + answer.to_s
 				
@@ -129,8 +155,8 @@ module Pickaxe
 	
 	class Answer < Struct.new(:content, :index, :correctness)
 		RE = /^\s*(>>)?(\?\?)?\s*\((\w+)\)\s*(.+)$/
-		def self.parse(line)
-			raise BadAnswer, "'#{line.truncate(20)}' does not look like answer" if (m = RE.match(line)).nil?
+		def self.parse(file, line)
+			raise BadAnswer, "#{file}: line #{line.index}: '#{line.truncate(20)}' does not look like answer" if (m = RE.match(line)).nil?
 			Answer.new(m[m.size-1].strip, m[m.size-2].strip, m[1] == ">>")
 		end
 		
