@@ -24,6 +24,12 @@ and searches for any <txt> files when given path is a directory.
     
   * `--select`=<number>:
     Select certain number of questions
+    
+  * `--strict`:
+    Quit after syntax error in test file
+    
+  * `--full-test`:
+    Do not reveal correct answers until the end of test
 
   * `--version`:
     Show pickaxe version and exit
@@ -36,8 +42,7 @@ simple format.
 `Questions` are separated by one or more blank lines. Each question
 has two parts: `content` and `answers`.
 
-`Content` is the very first line of question (for a very long questions You can
-wrap words in Your favourite editor).
+`Content` are lines until the first answer.
 
 `Answers` are defined by remaining lines, one answer per line. Answer starts
 with `(index)` and optional `>>` which denotes the answer is correct. Answer's
@@ -50,6 +55,7 @@ Example test file:
 
     // C-like comments are allowed
     1. To be or not to be?
+    That is the question (content).
     (a) To be.
     (b) Not to be.
     >> (c) I do not know.

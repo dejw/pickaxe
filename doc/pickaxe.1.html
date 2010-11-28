@@ -110,6 +110,8 @@ and searches for any <var>txt</var> files when given path is a directory.</p>
 (default is <var>txt</var>)</p></dd>
 <dt><code>-s</code>, <code>--sorted</code></dt><dd><p>Stop shuffling the questions</p></dd>
 <dt><code>--select</code>=<var>number</var></dt><dd><p>Select certain number of questions</p></dd>
+<dt><code>--strict</code></dt><dd><p>Quit after syntax error in test file</p></dd>
+<dt><code>--full-test</code></dt><dd><p>Do not reveal correct answers until the end of test</p></dd>
 <dt><code>--version</code></dt><dd><p>Show pickaxe version and exit</p></dd>
 </dl>
 
@@ -122,8 +124,7 @@ simple format.</p>
 <p><code>Questions</code> are separated by one or more blank lines. Each question
 has two parts: <code>content</code> and <code>answers</code>.</p>
 
-<p><code>Content</code> is the very first line of question (for a very long questions You can
-wrap words in Your favourite editor).</p>
+<p><code>Content</code> are lines until the first answer.</p>
 
 <p><code>Answers</code> are defined by remaining lines, one answer per line. Answer starts
 with <code>(index)</code> and optional <code>&gt;&gt;</code> which denotes the answer is correct. Answer's
@@ -136,6 +137,7 @@ index can by absolutely anything, but by convention it should be short
 
 <pre><code>// C-like comments are allowed
 1. To be or not to be?
+That is the question (content).
 (a) To be.
 (b) Not to be.
 &gt;&gt; (c) I do not know.

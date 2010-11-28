@@ -16,7 +16,7 @@ module Pickaxe
 		
 	#
 	# Test is a file in which questions are separated by a blank line.
-	# Each question has content (first line), and answers remaining lines.
+	# Each question has content (lines until answer), and answers.
 	# Answers are listed one per line which starts with optional >> (means answer
 	# is correct), followed by index in parenthesis (index) and followed by text.
 	#
