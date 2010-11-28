@@ -115,6 +115,8 @@ module Pickaxe
 				content << answers.shift
 			end
 			
+			raise MissingAnswers, "#{file}: line #{answers.first.index}: no content (check blank lines nearby)" if content.blank?			
+						
 			error_template = "#{file}: line #{content.first.index}: question '#{content.first.truncate(20)}' %s"
 			raise MissingAnswers, (error_template % "has no answers") if answers.blank?
 			Question.new(file, content, answers.collect {|answer| Answer.parse(file, answer) }).tap do |q|
