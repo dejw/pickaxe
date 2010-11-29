@@ -44,7 +44,7 @@ module Pickaxe
 				else
 					Dir.glob("#{file_or_directory}/*.#{Main.options[:extension] || "txt"}")
 				end				
-			end.flatten.collect(&:squeeze)
+			end.flatten.collect { |f| f.squeeze('/') }
 			
 			@questions = []
 			@files.each do |file|
