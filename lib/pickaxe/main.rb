@@ -18,6 +18,9 @@ END_OF_TEST
 			@test = Test.new(*paths)
 			return if options[:syntax_check]
 			
+			@logger = Logger.new(File.open('answers.log', File::WRONLY|File::TRUNC|File::CREAT))
+			@logger.formatter = lambda { |severity, time, progname, msg| msg.to_s + "\n" }
+			
 			@questions = @test.shuffled_questions
 			@answers = Hash.new([])					
 			@started_at = Time.now			
@@ -74,7 +77,7 @@ END_OF_TEST
 				if Main.options[:full_test] and @question.nil?
 					Main.options[:full_test] = false
 					Main.options[:force_show_answers] = true
-					
+								
 					@current_index = 0
 				else				
 					@current_index += 1
@@ -93,7 +96,7 @@ Available commands (whitespace does not matter):
 END_OF_HELP
 				false
 			else
-				@answers[@question] = line.strip.split(/\s+/).collect(&:strip)
+				@answers[@question] = line.strip.split(/\s+/).collect(&:strip)				
 				puts @question.check?(@answers[@question]) unless Main.options[:full_test]
 				@current_index += 1
 				true
@@ -102,7 +105,11 @@ END_OF_HELP
 		
 		def statistics!
 			@stats = @test.statistics!(@answers)
-			
+						
+			@answers.each do |question, answers|
+				@logger << ("#{question.index}: #{answers.join(" ")}\n")
+			end
+				
 			puts			
 			puts "Time: #{spent?}"
 			puts "All: #{@questions.length}"
