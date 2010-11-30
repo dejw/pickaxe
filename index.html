@@ -93,7 +93,8 @@
 
 <h2 id="SYNOPSIS">SYNOPSIS</h2>
 
-<p><code>pickaxe</code> [<var>options</var>] <var>path</var> [, <var>path</var> ...]</p>
+<p><code>pickaxe</code> [<var>options</var>] <var>path</var> [, <var>path</var> ...]<br />
+<code>drill</code> [<var>options</var>] <var>path</var> [, <var>path</var> ...]</p>
 
 <h2 id="DESCRIPTION">DESCRIPTION</h2>
 
@@ -102,6 +103,16 @@ written in simple text format.</p>
 
 <p>By default <code>pickaxe</code> loads any text file given as command line argument,
 and searches for any <var>txt</var> files when given path is a directory.</p>
+
+<p><code>pickaxe</code> provides bunch of commands during the test. Type <code>?</code> and hit <code>enter</code>
+for help.</p>
+
+<p>At the end of the test, <code>pickaxe</code> will create <code>answers.log</code> file with answers
+given by user during the test. Example of a log file:</p>
+
+<pre><code>123: a b
+456: c d e
+</code></pre>
 
 <h2 id="OPTIONS">OPTIONS</h2>
 
@@ -122,31 +133,61 @@ and searches for any <var>txt</var> files when given path is a directory.</p>
 <p>Tests (bundle of <code>questions</code>) that load <code>pickaxe</code> are stored in text file with
 simple format.</p>
 
-<p><code>Questions</code> are separated by one or more blank lines. Each question
+<p>Questions are separated by one or more blank lines. Each question
 has two parts: <code>content</code> and <code>answers</code>.</p>
 
-<p><code>Content</code> are lines until the first answer.</p>
+<h3 id="Questions">Questions</h3>
 
-<p><code>Answers</code> are defined by remaining lines, one answer per line. Answer starts
-with <code>(index)</code> and optional <code>&gt;&gt;</code> which denotes the answer is correct. Answer's
-index can by absolutely anything, but by convention it should be short
-(e.g <code>a</code>, <code>b</code>), because this is what user has to write to answer question.</p>
+<p>Question <code>content</code> is defined by lines until the first <code>answer leading line</code>.
+First line of a content must starts with a number (question index) followed by
+optional <code>.</code> (dot). Regular expression for questions are defined as follows:</p>
+
+<pre><code> ^\s*(\d+)\.?\s*(.+)$
+</code></pre>
+
+<p>Question index should be unique because it is used in <code>answers.log</code> file.
+Duplicated question index may be confusing for someone reading the log.</p>
+
+<h3 id="Answers">Answers</h3>
+
+<p><code>Answers</code> are defined by remaining lines. Answer may span across many lines until
+new <code>answers leading line</code> is found.</p>
+
+<p><code>Answer leading line</code> starts with <code>(index)</code> and optional <code>&gt;&gt;</code> which denotes the
+answer is correct. Answer's index can by absolutely anything, but by convention
+it should be short (e.g <code>a</code>, <code>b</code>), because this is what user has to write to
+answer question. Regular expression for leading lines is defines as follows:</p>
+
+<pre><code>^\s*(&gt;&gt;)?\s*(\?\?)?\s*\((\w+)\)\s*(.+)$
+</code></pre>
+
+<p>Addidional answer lines must match following regular expression (simple should
+start with a letter preceded by optional whitespaces):</p>
+
+<pre><code>^\s*(\w+)
+</code></pre>
+
+<h3 id="Comments">Comments</h3>
 
 <p>Lines that start with <code>#</code> or <code>//</code> are skipped (but does not treated as blank line).</p>
+
+<h3 id="Example">Example</h3>
 
 <p>Example test file:</p>
 
 <pre><code>// C-like comments are allowed
 1. To be or not to be?
-That is the question (content).
+That is also the question (content).
 (a) To be.
 (b) Not to be.
 &gt;&gt; (c) I do not know.
 
 # Ruby-like comments are also allowed
-1. Number listed here does not matter at all (question will be listed as is).
+1 Number listed here is recommended to be unique (note the dot is optional)
 (a) To be.
-(b) Not to be.
+(b) Not to be
+    that is still answer b)
+  and the number of whitespaces does not matter
 &gt;&gt; (c) I do not know.
 </code></pre>
 
@@ -166,7 +207,7 @@ That is the question (content).
 
   <ol class='man-decor man-foot man foot'>
     <li class='tl'></li>
-    <li class='tc'>November 2010</li>
+    <li class='tc'>December 2010</li>
     <li class='tr'>pickaxe(1)</li>
   </ol>
 
