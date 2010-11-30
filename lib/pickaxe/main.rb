@@ -18,6 +18,8 @@ END_OF_TEST
 			@test = Test.new(*paths)
 			return if options[:syntax_check]
 			
+			puts "! Hit Control-D to end test.\n\n"
+			
 			@logger = Logger.new(File.open('answers.log', File::WRONLY|File::TRUNC|File::CREAT))
 			@logger.formatter = lambda { |severity, time, progname, msg| msg.to_s + "\n" }
 			
