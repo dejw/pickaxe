@@ -5,6 +5,7 @@ module Pickaxe
 	class TestSyntaxError < PickaxeError; status_code(2) ; end
 	class MissingAnswers < TestSyntaxError; status_code(2) ; end
 	class BadAnswer < TestSyntaxError; status_code(3) ; end
+	class BadQuestion < TestSyntaxError; status_code(4) ; end
 	class NoCorrectAnswer < TestSyntaxError; status_code(3) ; end
 		
 	class TestLine < String
@@ -108,7 +109,9 @@ module Pickaxe
 		end
 	end
 		
-	class Question < Struct.new(:file, :content, :answers)
+	class Question < Struct.new(:file, :index, :content, :answers)
+		RE = /^\s*(\d+)\.?\s*(.+)$/
+		
 		def self.parse(file, answers)
 			content = []
 			until answers.first.nil? or Answer::RE.match(answers.first)
@@ -116,10 +119,22 @@ module Pickaxe
 			end
 			
 			raise MissingAnswers, "#{file}: line #{answers.first.index}: no content (check blank lines nearby)" if content.blank?			
-						
+			raise BadQuestion, "#{file}: line #{content.first.index}: '#{content.first.truncate(20)}' does not look like question" unless m = RE.match(content.first)
+									
 			error_template = "#{file}: line #{content.first.index}: question '#{content.first.truncate(20)}' %s"
 			raise MissingAnswers, (error_template % "has no answers") if answers.blank?
-			Question.new(file, content, answers.collect {|answer| Answer.parse(file, answer) }).tap do |q|
+			
+			answers = answers.inject([]) do |joined, line|
+				if Answer::RE.match(line)
+					joined << [line]
+				else
+					raise BadAnswer, "#{file}: line #{line.index}: '#{line.truncate(20)}' starts with weird characters" unless Answer::LINE_RE.match(line)
+					joined.last << line
+				end
+				joined
+			end
+			
+			Question.new(file, m[1], content, answers.collect {|answer| Answer.parse(file, answer) }).tap do |q|
 				raise NoCorrectAnswer, (error_template % "has no correct answer") if q.correct_answers.blank?
 			end
 		end
@@ -160,10 +175,12 @@ module Pickaxe
 	end
 	
 	class Answer < Struct.new(:content, :index, :correctness)
-		RE = /^\s*(>>)?(\?\?)?\s*\((\w+)\)\s*(.+)$/
-		def self.parse(file, line)
-			raise BadAnswer, "#{file}: line #{line.index}: '#{line.truncate(20)}' does not look like answer" if (m = RE.match(line)).nil?
-			Answer.new(m[m.size-1].strip, m[m.size-2].strip, m[1] == ">>")
+		RE = /^\s*(>>)?\s*(\?\?)?\s*\((\w+)\)\s*(.+)$/
+		LINE_RE = /^(\w+)/
+		
+		def self.parse(file, lines)
+			m = RE.match(lines.shift)
+			Answer.new(m[m.size-1].strip + " " + lines.collect(&:strip).join(" "), m[m.size-2].strip, m[1] == ">>")
 		end
 		
 		def to_s
