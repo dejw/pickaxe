@@ -13,7 +13,9 @@ Pickaxe provides a simple way to load, solve and rate tests (bundle of questions
 written in simple text format.
   EOF
   
-  s.executables = ['pickaxe']
+  s.executables = ['pickaxe', "drill"]
+  s.default_executable = 'bin/pickaxe'
+  
   s.files = Dir['lib/**/*.rb'] + Dir['bin/*']
 	s.required_ruby_version = '>= 1.8.7'
 	s.extra_rdoc_files = ['README.markdown', 'Gemfile', 'Gemfile.lock']

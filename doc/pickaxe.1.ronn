@@ -3,7 +3,8 @@ pickaxe(1) -- Uses given paths to generate a test from *.txt files
 
 ## SYNOPSIS
 
-`pickaxe` [<options>] <path> [, <path> ...]
+`pickaxe` [<options>] <path> [, <path> ...]  
+`drill` [<options>] <path> [, <path> ...]
 
 ## DESCRIPTION
 
@@ -12,6 +13,15 @@ written in simple text format.
 
 By default `pickaxe` loads any text file given as command line argument,
 and searches for any <txt> files when given path is a directory.
+
+`pickaxe` provides bunch of commands during the test. Type `?` and hit `enter`
+for help.
+
+At the end of the test, `pickaxe` will create `answers.log` file with answers
+given by user during the test. Example of a log file:
+
+    123: a b
+    456: c d e
 
 ## OPTIONS
 
@@ -42,31 +52,58 @@ and searches for any <txt> files when given path is a directory.
 Tests (bundle of `questions`) that load `pickaxe` are stored in text file with
 simple format.
 
-`Questions` are separated by one or more blank lines. Each question
+Questions are separated by one or more blank lines. Each question
 has two parts: `content` and `answers`.
 
-`Content` are lines until the first answer.
+### Questions
 
-`Answers` are defined by remaining lines, one answer per line. Answer starts
-with `(index)` and optional `>>` which denotes the answer is correct. Answer's
-index can by absolutely anything, but by convention it should be short 
-(e.g `a`, `b`), because this is what user has to write to answer question.
+Question `content` is defined by lines until the first `answer leading line`. 
+First line of a content must starts with a number (question index) followed by
+optional `.` (dot). Regular expression for questions are defined as follows:
+
+     ^\s*(\d+)\.?\s*(.+)$
+
+Question index should be unique because it is used in `answers.log` file. 
+Duplicated question index may be confusing for someone reading the log.
+
+### Answers
+
+`Answers` are defined by remaining lines. Answer may span across many lines until
+new `answers leading line` is found.
+
+`Answer leading line` starts with `(index)` and optional `>>` which denotes the 
+answer is correct. Answer's index can by absolutely anything, but by convention 
+it should be short (e.g `a`, `b`), because this is what user has to write to
+answer question. Regular expression for leading lines is defines as follows:
+
+    ^\s*(>>)?\s*(\?\?)?\s*\((\w+)\)\s*(.+)$
+    
+Addidional answer lines must match following regular expression (simple should 
+start with a letter preceded by optional whitespaces):
+
+    ^\s*(\w+)
+
+### Comments
 
 Lines that start with `#` or `//` are skipped (but does not treated as blank line).
+
+### Example
 
 Example test file:
 
     // C-like comments are allowed
     1. To be or not to be?
-    That is the question (content).
+    That is also the question (content).
     (a) To be.
     (b) Not to be.
     >> (c) I do not know.
     
     # Ruby-like comments are also allowed
-    1. Number listed here does not matter at all (question will be listed as is).
+    1 Number listed here is recommended to be unique (note the dot is optional)
     (a) To be.
-    (b) Not to be.
+    (b) Not to be
+        that is still answer b)
+      and the number of whitespaces does not matter
     >> (c) I do not know.
 	
 ## SOURCE CODE

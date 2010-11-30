@@ -35,7 +35,7 @@ module Pickaxe
 		include Enumerable
 		
 		# Ruby-comments and C-comments
-		COMMENTS_RE = /^#.*|^\/\/.*/
+		COMMENTS_RE = /^\s*#.*|^\/\/.*/
 		
 		def initialize(*files)
 			@files = files.collect do |file_or_directory|
@@ -176,7 +176,7 @@ module Pickaxe
 	
 	class Answer < Struct.new(:content, :index, :correctness)
 		RE = /^\s*(>>)?\s*(\?\?)?\s*\((\w+)\)\s*(.+)$/
-		LINE_RE = /^(\w+)/
+		LINE_RE = /^\s*(\w+)/
 		
 		def self.parse(file, lines)
 			m = RE.match(lines.shift)
