@@ -175,7 +175,7 @@ module Pickaxe
 	end
 	
 	class Answer < Struct.new(:content, :index, :correctness)
-		RE = /^\s*(>+)?\s*(\?\?)?\s*\((\w+)\)\s*(.+)$/
+		RE = /^\s*(>+)?\s*(\?\?)?\s*\(?(\w+)\)\s*(.+)$/
 		LINE_RE = /^\s*(\w+)/
 		
 		def self.parse(file, lines)
