@@ -110,7 +110,7 @@ module Pickaxe
 	end
 		
 	class Question < Struct.new(:file, :index, :content, :answers)
-		RE = /^\s*(\d+)\.?\s*(.+)$/
+		RE = /^\s*(\d+)\.?\s*(.+)$/u
 		
 		def self.parse(file, answers)
 			content = []
@@ -176,7 +176,7 @@ module Pickaxe
 	
 	class Answer < Struct.new(:content, :index, :correctness)
 		RE = /^\s*(>+)?\s*(\?\?)?\s*\(?(\w+)\)\s*(.+)$/
-		LINE_RE = /^\s*(\w+)/
+		LINE_RE = /^\s*(\w+)/u
 		
 		def self.parse(file, lines)
 			m = RE.match(lines.shift)
