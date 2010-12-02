@@ -8,7 +8,9 @@ module Pickaxe
 This is the end of this test and You can now jump back to
 any question and check (or change) Your answers.
 
-Hit [ENTER] to rate the test.
+If You do not know how to jump back type `?' and press [ENTER].
+
+Hit [ENTER] to rate the test and see Your incorrect answers.
 END_OF_TEST
 
 		def initialize(paths, options = {})
@@ -24,6 +26,7 @@ END_OF_TEST
 			@logger.formatter = lambda { |severity, time, progname, msg| msg.to_s + "\n" }
 			
 			@questions = @test.shuffled_questions
+			@questions_length = @questions.length.to_f
 			@answers = Hash.new([])					
 			@started_at = Time.now			
 			@current_index = 0
@@ -79,7 +82,8 @@ END_OF_TEST
 				if Main.options[:full_test] and @question.nil?
 					Main.options[:full_test] = false
 					Main.options[:force_show_answers] = true
-								
+					
+					@questions = @test.selected.select { |q| not q.correct?(@answers[q]) }
 					@current_index = 0
 				else				
 					@current_index += 1
@@ -136,7 +140,7 @@ END_OF_HELP
 	protected
 		def stat(name, color)
 			value = @stats[name.to_s.downcase.to_sym]
-			puts format("#{name.to_s.capitalize}: #{value} (%g%%)", value/@questions.length.to_f * 100).color(color)
+			puts format("#{name.to_s.capitalize}: #{value} (%g%%)", value/@questions_length * 100).color(color)
 		end
 	end
 end

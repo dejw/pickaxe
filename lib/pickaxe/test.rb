@@ -175,12 +175,12 @@ module Pickaxe
 	end
 	
 	class Answer < Struct.new(:content, :index, :correctness)
-		RE = /^\s*(>>)?\s*(\?\?)?\s*\((\w+)\)\s*(.+)$/
+		RE = /^\s*(>+)?\s*(\?\?)?\s*\((\w+)\)\s*(.+)$/
 		LINE_RE = /^\s*(\w+)/
 		
 		def self.parse(file, lines)
 			m = RE.match(lines.shift)
-			Answer.new(m[m.size-1].strip + " " + lines.collect(&:strip).join(" "), m[m.size-2].strip, m[1] == ">>")
+			Answer.new(m[4].strip + " " + lines.collect(&:strip).join(" "), m[3].strip, !m[1].nil?)
 		end
 		
 		def to_s
