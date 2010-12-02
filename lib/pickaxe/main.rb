@@ -102,7 +102,7 @@ Available commands (whitespace does not matter):
 END_OF_HELP
 				false
 			else
-				@answers[@question] = line.strip.split(/\s+/).collect(&:strip)				
+				@answers[@question] = line.strip.split(/\s+/).collect(&:strip).uniq
 				puts @question.check?(@answers[@question]) unless Main.options[:full_test]
 				@current_index += 1
 				true
