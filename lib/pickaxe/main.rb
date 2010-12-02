@@ -21,7 +21,7 @@ END_OF_TEST
 			return if options[:syntax_check]
 						
 			@logger = Logger.new(File.open('answers.log', 
-				File::WRONLY|File::TRUNC|File::CREAT))
+				File::WRONLY|File::APPEND|File::CREAT))
 			@logger.formatter = lambda { |s, t, p, msg| msg.to_s + "\n" }
 			
 			@questions = @test.shuffled_questions
