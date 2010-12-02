@@ -186,9 +186,24 @@ module Pickaxe
 			end
 		end
 		
+		def shuffled_answers
+			if @shuffled_answers.nil?
+				unless Main.options[:sorted_answers]
+					@shuffled_answers = self.answers.shuffle
+					self.answers.collect(&:index).sort.each_with_index do |index, order|
+						@shuffled_answers[order].index = index
+					end
+				else
+					@shuffled_answers = self.answers
+				end
+			end
+			
+			@shuffled_answers
+		end
+		
 		def answered(indices)
 			content = self.content.word_wrap(:indent => index.to_s.length+2)
-			content + "\n\n" + self.answers.collect do |answer|
+			content + "\n\n" + self.shuffled_answers.collect do |answer|
 				selected = indices.include?(answer.index)
 				line = (selected ? ">> " : "   ") + answer.to_s
 				

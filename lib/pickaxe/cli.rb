@@ -19,6 +19,10 @@ END_OF_BANNER
 		options[:sorted] = true
 	end
 	
+	opts.on("--sorted-answers", "Do not shuffle answers") do |v|
+		options[:sorted_answers] = true
+	end	
+	
 	opts.on("--select [NUMBER]", "Select certain number of questions") do |v|
 		options[:select] = Integer(v)
 	end
