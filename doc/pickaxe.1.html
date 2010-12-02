@@ -166,6 +166,23 @@ start with a letter preceded by optional whitespaces):</p>
 <pre><code>^\s*(\w+)
 </code></pre>
 
+<h3 id="Formatting">Formatting</h3>
+
+<p>If answer or question spans across lines, additional lines will be joined with
+a white space. If You would like to break line in particular place, write <code>\n</code>.</p>
+
+<p>Example:</p>
+
+<pre><code>355. What kind of error You appears in this piece of C++ code:
+\n[1] goto label;
+\n[2] Person* person = new Person();
+\n[3] label: // ...
+a) syntactical
+&gt;&gt; b) semantical
+c) lexical
+d) there is no error
+</code></pre>
+
 <h3 id="Comments">Comments</h3>
 
 <p>Lines that start with <code>#</code> or <code>//</code> are skipped (but does not treated as blank line).</p>

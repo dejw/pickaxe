@@ -15,7 +15,7 @@ class String
 			if line.length > options[:line_width]
 			 line.gsub(/(.{1,#{options[:line_width]}})(\s+|$)/, "\\1\n#{" " * options[:indent]}").strip
 			else
-				line
+				line.strip
 			end
 		end * "\n#{" " * options[:indent]}"
 	end
