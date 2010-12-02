@@ -50,7 +50,7 @@ module Pickaxe
 			@questions = []
 			@files.each do |file|
 				File.open(file) do |f|
-					lines = f.readlines.collect(&:strip).enum_with_index.collect do |line, index|
+					lines = f.readlines.collect(&:strip).each_with_index.collect do |line, index|
 						TestLine.new(line, index)
 					end
 					
@@ -176,7 +176,7 @@ module Pickaxe
 	
 	class Answer < Struct.new(:content, :index, :correctness)
 		RE = /^\s*(>+)?\s*(\?+)?\s*\(?(\w)\)\s*(.+)$/u
-		LINE_RE = /^\s*(\w+)/u
+		LINE_RE = /^\s*([[:alpha:]]|\w+)/u
 		
 		def self.parse(file, lines)
 			m = RE.match(lines.shift)
