@@ -72,11 +72,10 @@ Duplicated question index may be confusing for someone reading the log.
 new `answers leading line` is found.
 
 `Answer leading line` starts with `(index)` and optional `>>` which denotes the 
-answer is correct. Answer's index can by absolutely anything, but by convention 
-it should be short (e.g `a`, `b`), because this is what user has to write to
-answer question. Regular expression for leading lines is defines as follows:
+answer is correct. Answer index is simply a letter indicating that answer.
+Regular expression for leading lines is defines as follows:
 
-    ^\s*(>+)?\s*(\?\?)?\s*\(?(\w+)\)\s*(.+)$
+    ^\s*(>+)?\s*(\?+)?\s*\(?(\w)\)\s*(.+)$
     
 Addidional answer lines must match following regular expression (simple should 
 start with a letter preceded by optional whitespaces):
