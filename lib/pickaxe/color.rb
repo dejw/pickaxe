@@ -1,5 +1,6 @@
 module Pickaxe 
-  # Extracted from https://github.com/wycats/thor/blob/master/lib/thor/shell/color.rb
+  # Extracted from 
+  # https://github.com/wycats/thor/blob/master/lib/thor/shell/color.rb
 	module Color
 		# Embed in a String to clear all previous ANSI sequences.
 		CLEAR = "\e[0m"

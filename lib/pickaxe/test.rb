@@ -1,12 +1,54 @@
 module Pickaxe
 
-	class PathError < PickaxeError; status_code(1) ; end
+	class PathError < PickaxeError
+		def initialize(file_or_directory)
+			super("file or directory '#{file_or_directory}' does not exist")
+		end
+	end
 	
-	class TestSyntaxError < PickaxeError; status_code(2) ; end
-	class MissingAnswers < TestSyntaxError; status_code(2) ; end
-	class BadAnswer < TestSyntaxError; status_code(3) ; end
-	class BadQuestion < TestSyntaxError; status_code(4) ; end
-	class NoCorrectAnswer < TestSyntaxError; status_code(3) ; end
+	class TestSyntaxError < PickaxeError
+		def initialize(file, line, message)
+			super("#{file}: line #{line}: #{message}")
+		end
+	end
+	
+	class MissingContent < TestSyntaxError
+		def initialize(file, line)
+			super(file, line, "no content (check blank lines nearby)")
+		end	
+	end
+	
+	class MissingAnswers < TestSyntaxError
+		def initialize(file, question)
+			super(file, question.index, 
+				BadQuestion.message(question, "has no answers"))
+		end
+	end
+	
+	class BadAnswer < TestSyntaxError
+		def initialize(file, line)
+			super(file, line.index, 
+				"'#{line.truncate(20)}' starts with weird characters")
+		end
+	end
+	
+	class BadQuestion < TestSyntaxError
+		def self.message(question, m)
+			"question '#{question.truncate(20)}' #{m}"
+		end		
+		
+		def initialize(file, question)
+			super(file, question.index, 
+				"'#{question.truncate(20)}' does not look like question")
+		end	
+	end
+	
+	class NoCorrectAnswer < TestSyntaxError
+		def initialize(file, question)
+			super(file, question.content.first.index,
+				BadQuestion.message(question.content.first, "has no correct answers"))
+		end
+	end
 		
 	class TestLine < String
 		attr_accessor :index
@@ -39,19 +81,22 @@ module Pickaxe
 		
 		def initialize(*files)
 			@files = files.collect do |file_or_directory|
-				raise PathError, "file or directory '#{file_or_directory}' does not exist" unless File.exist?(file_or_directory)
+				unless File.exist?(file_or_directory)
+					raise PathError.new(file_or_directory) 
+				end
+				
 				if File.file?(file_or_directory)
 					file_or_directory
 				else
-					Dir.glob("#{file_or_directory}/*.#{Main.options[:extension] || "txt"}")
+					Dir.glob("#{file_or_directory}/*.#{Main.options[:extension]}")
 				end				
 			end.flatten.collect { |f| f.squeeze('/') }
 			
 			@questions = []
 			@files.each do |file|
 				File.open(file) do |f|
-					lines = f.readlines.collect(&:strip).each_with_index.collect do |line, index|
-						TestLine.new(line, index)
+					lines = f.readlines.collect(&:strip).each_with_index.collect do |l, i|
+						TestLine.new(l, i)
 					end
 					
 					lines = lines.reject {|line| line =~ COMMENTS_RE }
@@ -117,25 +162,26 @@ module Pickaxe
 			until answers.first.nil? or Answer::RE.match(answers.first)
 				content << answers.shift
 			end
-			
-			raise MissingAnswers, "#{file}: line #{answers.first.index}: no content (check blank lines nearby)" if content.blank?			
-			raise BadQuestion, "#{file}: line #{content.first.index}: '#{content.first.truncate(20)}' does not look like question" unless m = RE.match(content.first)
+						
+			raise MissingAnswers.new(file, answers.first.index) if content.blank?			
+			unless m = RE.match(content.first)
+				raise BadQuestion.new(file, content.first) 
+			end
+			raise MissingAnswers.new(file, content.first) if answers.blank?
 									
-			error_template = "#{file}: line #{content.first.index}: question '#{content.first.truncate(20)}' %s"
-			raise MissingAnswers, (error_template % "has no answers") if answers.blank?
-			
 			answers = answers.inject([]) do |joined, line|
 				if Answer::RE.match(line)
 					joined << [line]
 				else
-					raise BadAnswer, "#{file}: line #{line.index}: '#{line.truncate(20)}' starts with weird characters" unless Answer::LINE_RE.match(line)
+					raise BadAnswer.new(file, line)unless Answer::LINE_RE.match(line)
 					joined.last << line
 				end
 				joined
 			end
 			
-			Question.new(file, m[1], content, answers.collect {|answer| Answer.parse(file, answer) }).tap do |q|
-				raise NoCorrectAnswer, (error_template % "has no correct answer") if q.correct_answers.blank?
+			answers = answers.collect {|answer| Answer.parse(file, answer) }
+			Question.new(file, m[1], content, answers).tap do |q|
+				raise NoCorrectAnswer.new(file, q) if q.correct_answers.blank?
 			end
 		end
 		
@@ -145,7 +191,8 @@ module Pickaxe
 				selected = indices.include?(answer.index)
 				line = (selected ? ">> " : "   ") + answer.to_s
 				
-				if Main.options[:force_show_answers] or (not indices.blank? and not Main.options[:full_test]) then
+				if(Main.options[:force_show_answers] or
+					(not indices.blank? and not Main.options[:full_test])) then
 					if selected and answer.correctness
 						line.color(:green)
 					elsif not selected and answer.correctness
@@ -180,7 +227,8 @@ module Pickaxe
 		
 		def self.parse(file, lines)
 			m = RE.match(lines.shift)
-			Answer.new(m[4].strip + " " + lines.collect(&:strip).join(" "), m[3].strip, !m[1].nil?)
+			Answer.new(m[4].strip + " " + lines.collect(&:strip).join(" "), 
+				m[3].strip, !m[1].nil?)
 		end
 		
 		def to_s

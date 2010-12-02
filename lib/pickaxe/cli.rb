@@ -1,6 +1,6 @@
 require 'optparse'
 
-options = {}
+options = { :extension => "txt" }
 OptionParser.new do |opts|
   opts.banner = <<END_OF_BANNER
 Usage: 
@@ -10,7 +10,8 @@ Uses given paths (files or directories) to generate a test from *.txt files.
 END_OF_BANNER
   
   opts.separator ""
-  opts.on("-e", "--ext [EXTENSION]", "Use files with given EXTENSION (default 'txt')") do |extension|
+  opts.on("-e", "--ext [EXTENSION]", "Use files with given EXTENSION " +
+  	"(default 'txt')") do |extension|
     options[:extension] = extension
   end
   

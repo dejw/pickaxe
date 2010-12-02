@@ -7,7 +7,11 @@ class String
 		options.reverse_merge!(:line_width => Pickaxe::Shell.dynamic_width || 80)
 
 		self.split("\n").collect do |line|
-			line.length > options[:line_width] ? line.gsub(/(.{1,#{options[:line_width]}})(\s+|$)/, "\\1\n").strip : line
+			if line.length > options[:line_width]
+			 line.gsub(/(.{1,#{options[:line_width]}})(\s+|$)/, "\\1\n").strip
+			else
+				line
+			end
 		end * "\n"
 	end
 	

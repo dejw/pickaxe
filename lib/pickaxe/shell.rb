@@ -1,6 +1,7 @@
 module Pickaxe
 	module Shell
-		# Extracted from https://github.com/wycats/thor/blob/master/lib/thor/shell/basic.rb
+		# Extracted from 
+		# https://github.com/wycats/thor/blob/master/lib/thor/shell/basic.rb
 		def self.dynamic_width
 		  (dynamic_width_stty.nonzero? || dynamic_width_tput)
 		end

@@ -22,8 +22,9 @@ END_OF_TEST
 			
 			puts "! Hit Control-D to end test.\n\n"
 			
-			@logger = Logger.new(File.open('answers.log', File::WRONLY|File::TRUNC|File::CREAT))
-			@logger.formatter = lambda { |severity, time, progname, msg| msg.to_s + "\n" }
+			@logger = Logger.new(File.open('answers.log', 
+				File::WRONLY|File::TRUNC|File::CREAT))
+			@logger.formatter = lambda { |s, t, p, msg| msg.to_s + "\n" }
 			
 			@questions = @test.shuffled_questions
 			@questions_length = @questions.length.to_f
@@ -31,11 +32,14 @@ END_OF_TEST
 			@started_at = Time.now			
 			@current_index = 0
 			
-			while @current_index < @questions.length + (Main.options[:full_test] ? 1 : 0) do
+			info = Main.options[:full_test] ? 1 : 0
+			while @current_index < @questions.length + info do
 				@question = @questions[@current_index]
 				
 				unless @question.nil?
-					puts "#{@current_index+1} / #{@questions.length}\t\tFrom: #{@question.file}\t\tTime spent: #{spent?}"
+					print "#{@current_index+1} / #{@questions.length}\t\t"
+					puts "From: #{@question.file}\t\tTime spent: #{spent?}"
+					
 					puts @question.answered(@answers[@question])
 				else
 					puts END_OF_TEST_MESSAGE
@@ -103,7 +107,9 @@ END_OF_HELP
 				false
 			else
 				@answers[@question] = line.gsub(/\s+/, "").each_char.collect.uniq
-				puts @question.check?(@answers[@question]) unless Main.options[:full_test]
+				unless Main.options[:full_test]
+					puts @question.check?(@answers[@question])
+				end
 				@current_index += 1
 				true
 			end
@@ -140,7 +146,8 @@ END_OF_HELP
 	protected
 		def stat(name, color)
 			value = @stats[name.to_s.downcase.to_sym]
-			puts format("#{name.to_s.capitalize}: #{value} (%g%%)", value/@questions_length * 100).color(color)
+			puts format("#{name.to_s.capitalize}: #{value} (%g%%)", 
+				value/@questions_length * 100).color(color)
 		end
 	end
 end
