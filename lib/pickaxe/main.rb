@@ -106,7 +106,7 @@ Available commands (whitespace does not matter):
 END_OF_HELP
 				false
 			else
-				@answers[@question] = line.gsub(/\s+/, "").each_char.collect.uniq
+				@answers[@question] = line.gsub(/\s+/, "").each_char.collect.to_a.uniq
 				unless Main.options[:full_test]
 					puts @question.check?(@answers[@question])
 				end
