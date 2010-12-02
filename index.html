@@ -154,11 +154,10 @@ Duplicated question index may be confusing for someone reading the log.</p>
 new <code>answers leading line</code> is found.</p>
 
 <p><code>Answer leading line</code> starts with <code>(index)</code> and optional <code>&gt;&gt;</code> which denotes the
-answer is correct. Answer's index can by absolutely anything, but by convention
-it should be short (e.g <code>a</code>, <code>b</code>), because this is what user has to write to
-answer question. Regular expression for leading lines is defines as follows:</p>
+answer is correct. Answer index is simply a letter indicating that answer.
+Regular expression for leading lines is defines as follows:</p>
 
-<pre><code>^\s*(&gt;+)?\s*(\?\?)?\s*\(?(\w+)\)\s*(.+)$
+<pre><code>^\s*(&gt;+)?\s*(\?+)?\s*\(?(\w)\)\s*(.+)$
 </code></pre>
 
 <p>Addidional answer lines must match following regular expression (simple should
