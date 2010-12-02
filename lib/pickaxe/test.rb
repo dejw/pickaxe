@@ -173,7 +173,7 @@ module Pickaxe
 				if Answer::RE.match(line)
 					joined << [line]
 				else
-					raise BadAnswer.new(file, line)unless Answer::LINE_RE.match(line)
+					raise BadAnswer.new(file, line) unless Answer::LINE_RE.match(line)
 					joined.last << line
 				end
 				joined
@@ -182,12 +182,13 @@ module Pickaxe
 			answers = answers.collect {|answer| Answer.parse(file, answer) }
 			Question.new(file, m[1], content, answers).tap do |q|
 				raise NoCorrectAnswer.new(file, q) if q.correct_answers.blank?
+				q.content = q.content.join(" ").gsub("\\n", "\n")
 			end
 		end
 		
 		def answered(indices)
-			content = self.content.collect(&:word_wrap).join("\n")
-			"#{content}\n\n" + self.answers.collect do |answer|
+			content = self.content.word_wrap(:indent => index.to_s.length+2)
+			content + "\n\n" + self.answers.collect do |answer|
 				selected = indices.include?(answer.index)
 				line = (selected ? ">> " : "   ") + answer.to_s
 				
@@ -223,16 +224,16 @@ module Pickaxe
 	
 	class Answer < Struct.new(:content, :index, :correctness)
 		RE = /^\s*(>+)?\s*(\?+)?\s*\(?(\w)\)\s*(.+)$/u
-		LINE_RE = /^\s*([[:alpha:]]|\w+)/u
+		LINE_RE = /^\s*\\?\s*([[:alpha:]]|\w+)/u
 		
 		def self.parse(file, lines)
 			m = RE.match(lines.shift)
-			Answer.new(m[4].strip + " " + lines.collect(&:strip).join(" "), 
+			Answer.new(m[4].strip + " " + lines.map(&:strip).join(" ").gsub("\\n", "\n"),
 				m[3].strip, !m[1].nil?)
 		end
 		
 		def to_s
-			"(#{self.index}) #{self.content}".word_wrap
+			"(#{self.index}) #{self.content}".word_wrap(:indent => 7)
 		end
 	end
 end
