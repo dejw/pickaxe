@@ -1,6 +1,6 @@
 module Pickaxe
 	class Main
-		class NoTests < PickaxeError; status_code(1) ; end
+		class NoTests < PickaxeError; end
 		
 		cattr_accessor :options
 		

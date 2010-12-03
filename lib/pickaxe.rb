@@ -7,12 +7,7 @@ $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
 module Pickaxe
 	VERSION = "0.5.1"
 	
-	class PickaxeError < StandardError
-		attr_reader :status_code
-    def self.status_code(code = nil)
-      define_method(:status_code) { code }
-    end
-  end
+	class PickaxeError < StandardError; end
   
   autoload :Shell, 'pickaxe/shell'
   autoload :Color, 'pickaxe/color'

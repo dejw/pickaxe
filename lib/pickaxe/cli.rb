@@ -1,7 +1,7 @@
 require 'optparse'
 
 options = { :extension => "txt" }
-OptionParser.new do |opts|
+parser = OptionParser.new do |opts|
   opts.banner = <<END_OF_BANNER
 Usage: 
   #{$0.split("/").last} path [, path ...]
@@ -39,6 +39,10 @@ END_OF_BANNER
     options[:syntax_check] = true
   end
   
+	opts.on("--no-color", "Turn off colors") do |v|
+		options[:no_colors] = true
+	end	
+  
   opts.on_tail("--version", "Show version") do
     puts "pickaxe version #{Pickaxe::VERSION}"
     exit
@@ -48,11 +52,11 @@ END_OF_BANNER
 		puts opts
 		exit
 	end
-end.parse!
+end
 
 begin
+	parser.parse!
 	Pickaxe::Main.new(ARGV, options)
-rescue Pickaxe::PickaxeError => e
-	$stderr.puts(("! " + e.message).color(:red))
-	exit(e.status_code)
+rescue Pickaxe::PickaxeError, OptionParser::InvalidOption => e
+	$stderr.puts(("! " + e.to_s).color(:red))
 end

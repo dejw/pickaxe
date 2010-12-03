@@ -59,7 +59,6 @@ module Pickaxe
 			end
 		end
 		
-		# Yields questions randomly
 		def each(&block)
 			shuffled_questions.each(&block)
 		end
@@ -109,28 +108,24 @@ module Pickaxe
 				content << answers.shift
 			end
 						
-			raise MissingAnswers.new(file, answers.first.index) if content.blank?			
-			unless m = RE.match(content.first)
-				raise BadQuestion.new(file, content.first) 
-			end
-			raise MissingAnswers.new(file, content.first) if answers.blank?
+			raise MissingAnswers.new(file, answers.first.index) if content.blank?
+			raise BadQuestion.new(content.first) unless m = RE.match(content.first)
+			raise MissingAnswers.new(content.first) if answers.blank?
 									
 			answers = answers.inject([]) do |joined, line|
 				if Answer::RE.match(line)
 					joined << [line]
 				else
-					raise BadAnswer.new(file, line) unless Answer::LINE_RE.match(line)
+					raise BadAnswer.new(line) unless Answer::LINE_RE.match(line)
 					joined.last << line
 				end
 				joined
 			end
 			
-			answers = answers.collect {|answer| Answer.parse(file, answer) }
+			answers = answers.collect {|answer| Answer.parse(answer) }
 			Question.new(file, m[1], content, answers).tap do |q|
-				raise NoCorrectAnswer.new(file, q) if q.correct_answers.blank?
-				unless q.answers.collect(&:index).uniq!.nil?
-					raise NotUniqueAnswerIndices.new(file, q) 
-				end
+				raise NoCorrectAnswer.new(q) if q.correct_answers.blank?				
+				raise NotUniqueAnswerIndices.new(q) unless q.answer_indices.uniq!.nil?
 				q.content = q.content.join(" ").gsub("\\n", "\n")
 			end
 		end
@@ -139,7 +134,7 @@ module Pickaxe
 			if @shuffled_answers.nil?
 				unless Main.options[:sorted_answers]
 					@shuffled_answers = self.answers.shuffle
-					self.answers.collect(&:index).sort.each_with_index do |index, order|
+					answer_indices.sort.each_with_index do |index, order|
 						@shuffled_answers[order].index = index
 					end
 				else
@@ -177,6 +172,10 @@ module Pickaxe
 			answers.select(&:correctness).collect(&:index).sort
 		end
 		
+		def answer_indices
+			shuffled_answers.collect(&:index)
+		end
+		
 		def check?(given)
 			if correct?(given)
 				"Correct!".color(:green)
@@ -190,7 +189,7 @@ module Pickaxe
 		RE = /^\s*(>+)?\s*(\?+)?\s*\(?(\w)\)\s*(.+)$/u
 		LINE_RE = /^\s*\\?\s*([[:alpha:]]|\w+)/u
 		
-		def self.parse(file, lines)
+		def self.parse(lines)
 			m = RE.match(lines.shift)
 			Answer.new(m[4].strip + " " + lines.map(&:strip).join(" ").gsub("\\n", "\n"),
 				m[3].strip, !m[1].nil?)

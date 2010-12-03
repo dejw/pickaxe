@@ -47,9 +47,13 @@ module Pickaxe
 		# of the returned String.
 		#
 		def self.set_color(string, color, bold=false)
-		  color = self.const_get(color.to_s.upcase) if color.is_a?(Symbol)
-		  bold = bold ? BOLD : ""
-		  "#{bold}#{color}#{string}#{CLEAR}"
+			unless (Main.options || {})[:no_colors]
+				color = self.const_get(color.to_s.upcase) if color.is_a?(Symbol)
+				bold = bold ? BOLD : ""
+				"#{bold}#{color}#{string}#{CLEAR}"
+			else
+				string
+			end
 		end
 	end
 end
