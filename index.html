@@ -69,6 +69,7 @@
     <a href="#SYNOPSIS">SYNOPSIS</a>
     <a href="#DESCRIPTION">DESCRIPTION</a>
     <a href="#OPTIONS">OPTIONS</a>
+    <a href="#EXAMPLES">EXAMPLES</a>
     <a href="#TEST-FILE-SYNTAX">TEST FILE SYNTAX</a>
     <a href="#SOURCE-CODE">SOURCE CODE</a>
     <a href="#AUTHOR">AUTHOR</a>
@@ -102,7 +103,7 @@
 written in simple text format.</p>
 
 <p>By default <code>pickaxe</code> loads any text file given as command line argument,
-and searches for any <var>txt</var> files when given path is a directory.</p>
+and searches for any <var>txt</var> files when given <var>path</var> is a directory.</p>
 
 <p><code>pickaxe</code> provides bunch of commands during the test. Type <code>?</code> and hit <code>enter</code>
 for help.</p>
@@ -117,16 +118,46 @@ given by user during the test. Example of a log file:</p>
 <h2 id="OPTIONS">OPTIONS</h2>
 
 <dl>
-<dt><code>-e</code>, <code>--extension</code>=<var>extension</var></dt><dd><p>Change the <var>extension</var> for files loaded automatically from directories
-(default is <var>txt</var>)</p></dd>
-<dt><code>-s</code>, <code>--sorted</code></dt><dd><p>Stop shuffling the questions</p></dd>
-<dt><code>--select</code>=<var>number</var></dt><dd><p>Select certain number of questions</p></dd>
-<dt><code>--strict</code></dt><dd><p>Quit after first syntax error in test file</p></dd>
-<dt><code>--full-test</code></dt><dd><p>Do not reveal correct answers until the end of test</p></dd>
-<dt><code>--syntax-check</code></dt><dd><p>Check syntax only - do not run test</p></dd>
+<dt><code>--no-color</code></dt><dd><p>Turn off colors</p></dd>
 <dt><code>--version</code></dt><dd><p>Show pickaxe version and exit</p></dd>
+<dt class="flush"><code>--help</code></dt><dd><p>Show help and exit</p></dd>
 </dl>
 
+
+<h3 id="Options-related-to-test-generation">Options related to test generation</h3>
+
+<dl>
+<dt><code>--select</code>=<var>number</var></dt><dd><p>Select certain <var>number</var> of questions. Useful for generating small random
+test sessions.</p></dd>
+<dt><code>--full-test</code></dt><dd><p>Do not reveal correct answers until the end of test</p></dd>
+<dt><code>-s</code>, <code>--sorted</code></dt><dd><p>Stop shuffling the questions</p></dd>
+<dt><code>--sorted-answers</code></dt><dd><p>Stop shuffling the answers</p></dd>
+</dl>
+
+
+<h3 id="Options-related-to-test-files-and-syntax">Options related to test files and syntax</h3>
+
+<dl>
+<dt><code>-e</code>, <code>--extension</code>=<var>extension</var></dt><dd><p>Change the <var>extension</var> for files loaded automatically from directories
+(default is <var>txt</var>)</p></dd>
+<dt><code>--strict</code></dt><dd><p>Quit after first syntax error in test file</p></dd>
+<dt><code>--syntax-check</code></dt><dd><p>Check syntax only - do not run test. Makes <code>--sorted</code>, <code>--sorted-answers</code>
+<code>--select</code> useless</p></dd>
+</dl>
+
+
+<h2 id="EXAMPLES">EXAMPLES</h2>
+
+<p>Load all tests from current directory:</p>
+
+<pre><code>$ pickaxe .
+</code></pre>
+
+<p>Create a small test (30 question) from some files and directory and emulate the
+exam:</p>
+
+<pre><code>$ pickaxe file1.txt file2.tst directory --select=30 --full-test
+</code></pre>
 
 <h2 id="TEST-FILE-SYNTAX">TEST FILE SYNTAX</h2>
 
@@ -164,6 +195,23 @@ Regular expression for leading lines is defines as follows:</p>
 start with a letter preceded by optional whitespaces):</p>
 
 <pre><code>^\s*(\w+)
+</code></pre>
+
+<h3 id="Formatting">Formatting</h3>
+
+<p>If answer or question spans across lines, additional lines will be joined with
+a white space. If You would like to break line in particular place, write <code>\n</code>.</p>
+
+<p>Example:</p>
+
+<pre><code>355. What kind of error You appears in this piece of C++ code:
+\n[1] goto label;
+\n[2] Person* person = new Person();
+\n[3] label: // ...
+a) syntactical
+&gt;&gt; b) semantical
+c) lexical
+d) there is no error
 </code></pre>
 
 <h3 id="Comments">Comments</h3>
