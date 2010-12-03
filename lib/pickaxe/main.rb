@@ -123,8 +123,10 @@ END_OF_HELP
 			@stats = @test.statistics!(@answers)
 						
 			@answers.each do |question, answers|
+				@logger << "!" unless question.correct?(answers)
 				@logger << ("#{question.index}: #{answers.join(" ")}\n")
 			end
+			@logger << "\n"
 				
 			puts			
 			puts "Time: #{spent?}"
