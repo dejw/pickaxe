@@ -108,11 +108,15 @@ and searches for any <var>txt</var> files when given <var>path</var> is a direct
 <p><code>pickaxe</code> provides bunch of commands during the test. Type <code>?</code> and hit <code>enter</code>
 for help.</p>
 
-<p>At the end of the test, <code>pickaxe</code> will create <code>answers.log</code> file with answers
-given by user during the test. Example of a log file:</p>
+<p>At the end of the test, <code>pickaxe</code> saves given answers to <code>answers.log</code>, thus it
+is vital to either finish whole test or quit <code>pickaxe</code> with Control-D. Incorrect
+answers will be marked by <code>!</code>. Example of a log file:</p>
 
 <pre><code>123: a b
-456: c d e
+!456: c d e
+
+12: a b
+!34: c d e
 </code></pre>
 
 <h2 id="OPTIONS">OPTIONS</h2>
@@ -204,7 +208,7 @@ a white space. If You would like to break line in particular place, write <code>
 
 <p>Example:</p>
 
-<pre><code>355. What kind of error You appears in this piece of C++ code:
+<pre><code>123. What kind of error You appears in this piece of C++ code:
 \n[1] goto label;
 \n[2] Person* person = new Person();
 \n[3] label: // ...

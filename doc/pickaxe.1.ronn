@@ -17,12 +17,16 @@ and searches for any <txt> files when given <path> is a directory.
 `pickaxe` provides bunch of commands during the test. Type `?` and hit `enter`
 for help.
 
-At the end of the test, `pickaxe` will create `answers.log` file with answers
-given by user during the test. Example of a log file:
+At the end of the test, `pickaxe` saves given answers to `answers.log`, thus it
+is vital to either finish whole test or quit `pickaxe` with Control-D. Incorrect
+answers will be marked by `!`. Example of a log file:
 
     123: a b
-    456: c d e
-
+    !456: c d e
+    
+    12: a b
+    !34: c d e
+    
 ## OPTIONS
 
   * `--no-color`:
@@ -115,7 +119,7 @@ a white space. If You would like to break line in particular place, write `\n`.
 
 Example:
 
-    355. What kind of error You appears in this piece of C++ code:
+    123. What kind of error You appears in this piece of C++ code:
     \n[1] goto label;
     \n[2] Person* person = new Person();
     \n[3] label: // ...
