@@ -18,6 +18,7 @@ module Pickaxe
   autoload :Color, 'pickaxe/color'
 	autoload :Main, 'pickaxe/main'
 	autoload :Test, 'pickaxe/test'
+	autoload :Errors, 'pickaxe/errors'
 end
 
 require 'pickaxe/extensions'

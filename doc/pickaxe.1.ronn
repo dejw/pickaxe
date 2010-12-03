@@ -32,6 +32,9 @@ given by user during the test. Example of a log file:
   * `-s`, `--sorted`:
     Stop shuffling the questions
     
+  * `--sorted-answers`:
+    Stop shuffling the answers
+    
   * `--select`=<number>:
     Select certain number of questions
     

@@ -1,55 +1,4 @@
 module Pickaxe
-
-	class PathError < PickaxeError
-		def initialize(file_or_directory)
-			super("file or directory '#{file_or_directory}' does not exist")
-		end
-	end
-	
-	class TestSyntaxError < PickaxeError
-		def initialize(file, line, message)
-			super("#{file}: line #{line}: #{message}")
-		end
-	end
-	
-	class MissingContent < TestSyntaxError
-		def initialize(file, line)
-			super(file, line, "no content (check blank lines nearby)")
-		end	
-	end
-	
-	class MissingAnswers < TestSyntaxError
-		def initialize(file, question)
-			super(file, question.index, 
-				BadQuestion.message(question, "has no answers"))
-		end
-	end
-	
-	class BadAnswer < TestSyntaxError
-		def initialize(file, line)
-			super(file, line.index, 
-				"'#{line.truncate(20)}' starts with weird characters")
-		end
-	end
-	
-	class BadQuestion < TestSyntaxError
-		def self.message(question, m)
-			"question '#{question.truncate(20)}' #{m}"
-		end		
-		
-		def initialize(file, question)
-			super(file, question.index, 
-				"'#{question.truncate(20)}' does not look like question")
-		end	
-	end
-	
-	class NoCorrectAnswer < TestSyntaxError
-		def initialize(file, question)
-			super(file, question.content.first.index,
-				BadQuestion.message(question.content.first, "has no correct answers"))
-		end
-	end
-		
 	class TestLine < String
 		attr_accessor :index
 		def initialize(itself, index)
@@ -58,20 +7,9 @@ module Pickaxe
 		end
 	end
 		
-	#
-	# Test is a file in which questions are separated by a blank line.
-	# Each question has content (lines until answer), and answers.
-	# Answers are listed one per line which starts with optional >> (means answer
-	# is correct), followed by index in parenthesis (index) and followed by text.
-	#
-	# Example:
-	#
-	#  1. To be or not to be?
-	#  (a) To be.
-	#  (b) Not to be.
-	#  >> (c) I do not know.
-	#
 	class Test
+		include Pickaxe::Errors
+		
 		attr_reader :questions
 		
 		include Enumerable
@@ -93,7 +31,7 @@ module Pickaxe
 			end.flatten.collect { |f| f.squeeze('/') }
 			
 			@questions = []
-			@files.each do |file|
+			@files.inject(nil) do |last, file|				
 				File.open(file) do |f|
 					lines = f.readlines.collect(&:strip).each_with_index.collect do |l, i|
 						TestLine.new(l, i)
@@ -107,10 +45,16 @@ module Pickaxe
 							if Main.options[:strict]						
 								raise e 
 							else
-								$stderr.puts(e.message.color(:red))
+								if last != file									
+									$stderr.puts unless last.nil?
+									$stderr.puts("#{file}:".color(:red))
+									last = file
+								end
+								$stderr.puts(e.message.color(:red).word_wrap(:indent => 2))
 							end
 						end					
 					end
+					file
 				end
 			end
 		end
@@ -155,6 +99,8 @@ module Pickaxe
 	end
 		
 	class Question < Struct.new(:file, :index, :content, :answers)
+		include Pickaxe::Errors
+		
 		RE = /^\s*(\d+)\.?\s*(.+)$/u
 		
 		def self.parse(file, answers)
@@ -182,6 +128,9 @@ module Pickaxe
 			answers = answers.collect {|answer| Answer.parse(file, answer) }
 			Question.new(file, m[1], content, answers).tap do |q|
 				raise NoCorrectAnswer.new(file, q) if q.correct_answers.blank?
+				unless q.answers.collect(&:index).uniq!.nil?
+					raise NotUniqueAnswerIndices.new(file, q) 
+				end
 				q.content = q.content.join(" ").gsub("\\n", "\n")
 			end
 		end

@@ -19,9 +19,7 @@ END_OF_TEST
 			Main.options = options			
 			@test = Test.new(*paths)
 			return if options[:syntax_check]
-			
-			puts "! Hit Control-D to end test.\n\n"
-			
+						
 			@logger = Logger.new(File.open('answers.log', 
 				File::WRONLY|File::TRUNC|File::CREAT))
 			@logger.formatter = lambda { |s, t, p, msg| msg.to_s + "\n" }
@@ -31,7 +29,13 @@ END_OF_TEST
 			@answers = Hash.new([])					
 			@started_at = Time.now			
 			@current_index = 0
+
+			if @questions_length == 0
+				$stderr.puts "! No questions in test!".color(:red)
+				return
+			end
 			
+			puts "! Hit Control-D to end test.\n\n".color(:green)	
 			info = Main.options[:full_test] ? 1 : 0
 			while @current_index < @questions.length + info do
 				@question = @questions[@current_index]
