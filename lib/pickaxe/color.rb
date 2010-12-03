@@ -52,7 +52,7 @@ module Pickaxe
 				bold = bold ? BOLD : ""
 				"#{bold}#{color}#{string}#{CLEAR}"
 			else
-				string
+				"#{CLEAR}#{string}"
 			end
 		end
 	end
