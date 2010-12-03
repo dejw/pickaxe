@@ -5,7 +5,7 @@ require "active_support/all"
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
 
 module Pickaxe
-	VERSION = "0.5.2"
+	VERSION = "0.5.3"
 	
 	class PickaxeError < StandardError; end
   
