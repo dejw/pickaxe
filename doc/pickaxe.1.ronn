@@ -12,7 +12,7 @@ Pickaxe provides a simple way to load, solve and rate tests (bundle of questions
 written in simple text format.
 
 By default `pickaxe` loads any text file given as command line argument,
-and searches for any <txt> files when given path is a directory.
+and searches for any <txt> files when given <path> is a directory.
 
 `pickaxe` provides bunch of commands during the test. Type `?` and hit `enter`
 for help.
@@ -25,30 +25,53 @@ given by user during the test. Example of a log file:
 
 ## OPTIONS
 
-  * `-e`, `--extension`=<extension>:
-    Change the <extension> for files loaded automatically from directories 
-    (default is <txt>)
+  * `--no-color`:
+    Turn off colors
+
+  * `--version`:
+    Show pickaxe version and exit
     
+  * `--help`:
+    Show help and exit
+    
+### Options related to test generation
+    
+  * `--select`=<number>:
+    Select certain <number> of questions. Useful for generating small random
+    test sessions.
+        
+  * `--full-test`:
+    Do not reveal correct answers until the end of test
+
   * `-s`, `--sorted`:
     Stop shuffling the questions
     
   * `--sorted-answers`:
     Stop shuffling the answers
     
-  * `--select`=<number>:
-    Select certain number of questions
-    
+### Options related to test files and syntax
+
+  * `-e`, `--extension`=<extension>:
+    Change the <extension> for files loaded automatically from directories 
+    (default is <txt>)    
+
   * `--strict`:
     Quit after first syntax error in test file
-    
-  * `--full-test`:
-    Do not reveal correct answers until the end of test
-    
+            
   * `--syntax-check`:
-    Check syntax only - do not run test
+    Check syntax only - do not run test. Makes `--sorted`, `--sorted-answers`
+    `--select` useless
 
-  * `--version`:
-    Show pickaxe version and exit
+## EXAMPLES
+
+Load all tests from current directory:
+
+    $ pickaxe .
+    
+Create a small test (30 question) from some files and directory and emulate the
+exam:
+
+    $ pickaxe file1.txt file2.tst directory --select=30 --full-test
     
 ## TEST FILE SYNTAX
 
