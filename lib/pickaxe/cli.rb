@@ -31,6 +31,10 @@ END_OF_BANNER
 		options[:full_test] = true
 	end
 	
+	opts.on("--repeat-incorrect", "Repeat questions answered incorrectly") do |v|
+		options[:repeat_incorrect] = true
+	end
+	
 	opts.on("--strict", "Quit on syntax error in test file") do |v|
 		options[:strict] = true
 	end
@@ -56,6 +60,10 @@ end
 
 begin
 	parser.parse!
+	if options[:full_test] and options[:repeat_incorrect]
+		$stderr.puts(("! --full-test disables the --repeat-incorrect option" ).color(:yellow))
+		options[:repeat_incorrect] = false
+	end
 	Pickaxe::Main.new(ARGV, options)
 rescue Pickaxe::PickaxeError, OptionParser::InvalidOption => e
 	$stderr.puts(("! " + e.to_s).color(:red))

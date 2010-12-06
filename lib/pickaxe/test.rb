@@ -100,7 +100,7 @@ module Pickaxe
 	class Question < Struct.new(:file, :index, :content, :answers)
 		include Pickaxe::Errors
 		
-		RE = /^\s*(\d+)\.?\s*(.+)$/u
+		RE = /^\s*(\d+)\.?\s*(.+)$/u	
 		
 		def self.parse(file, answers)
 			content = []

@@ -25,7 +25,6 @@ END_OF_TEST
 			@logger.formatter = lambda { |s, t, p, msg| msg.to_s + "\n" }
 			
 			@questions = @test.shuffled_questions
-			@questions_length = @questions.length.to_f
 			@answers = Hash.new([])					
 			@started_at = Time.now			
 			@current_index = 0
@@ -36,8 +35,7 @@ END_OF_TEST
 			end
 			
 			puts "! Hit Control-D to end test.\n\n".color(:green)	
-			info = Main.options[:full_test] ? 1 : 0
-			while @current_index < @questions.length + info do
+			while @current_index < @questions.length + (Main.options[:full_test] ? 1 : 0) do
 				@question = @questions[@current_index]
 				
 				unless @question.nil?
@@ -90,7 +88,7 @@ END_OF_TEST
 				if Main.options[:full_test] and @question.nil?
 					Main.options[:full_test] = false
 					Main.options[:force_show_answers] = true
-					
+					@questions_length ||= @questions.length.to_f
 					@questions = @test.selected.select { |q| not q.correct?(@answers[q]) }
 					@current_index = 0
 				else				
@@ -113,27 +111,37 @@ END_OF_HELP
 				@answers[@question] = line.gsub(/\s+/, "").each_char.collect.to_a.uniq
 				unless Main.options[:full_test]
 					puts @question.check?(@answers[@question])
-				end
-				@current_index += 1
+					if Main.options[:repeat_incorrect] and not @question.correct?(@answers[@question])
+						@answers.delete(@question)
+						@questions.insert(@current_index + 1 + rand(@questions.length - @current_index), @question)
+						@questions.delete_at(@current_index)						
+					else
+						@current_index += 1
+					end
+				else
+					@current_index += 1
+				end				
 				true
 			end
 		end
 		
 		def statistics!
-			@stats = @test.statistics!(@answers)
-						
-			@answers.each do |question, answers|
-				@logger << "!" unless question.correct?(answers)
-				@logger << ("#{question.index}: #{answers.join(" ")}\n")
-			end
-			@logger << "\n"
-				
 			puts			
 			puts "Time: #{spent?}"
-			puts "All: #{@questions.length}"
-			stat :correct, :green
-			stat :unanswered, :yellow
-			stat :incorrect, :red
+			unless Main.options[:repeat_incorrect]
+				puts "All: #{@questions.length}"
+				stat :correct, :green
+				stat :unanswered, :yellow
+				stat :incorrect, :red
+			
+				@stats = @test.statistics!(@answers)
+				@questions_length ||= @questions.length.to_f
+				@answers.each do |question, answers|
+					@logger << "!" unless question.correct?(answers)
+					@logger << ("#{question.index}: #{answers.join(" ")}\n")
+				end
+				@logger << "\n"
+			end				
 		end
 		
 		def error(msg)
