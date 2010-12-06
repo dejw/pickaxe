@@ -15,7 +15,7 @@ module Pickaxe
 		include Enumerable
 		
 		# Ruby-comments and C-comments
-		COMMENTS_RE = /^\s*#.*|^\/\/.*|^;.*/
+		COMMENTS_RE = /^\s*(#|\/\/|;).*/
 		
 		def initialize(*files)
 			@files = files.collect do |file_or_directory|
