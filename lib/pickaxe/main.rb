@@ -34,27 +34,30 @@ END_OF_TEST
 				return
 			end
 			
-			puts "! Hit Control-D to end test.\n\n".color(:green)	
-			while @current_index < @questions.length + (Main.options[:full_test] ? 1 : 0) do
-				@question = @questions[@current_index]
+			begin
+				puts "! Hit Control-D or Control-C to end test.\n\n".color(:green)	
+				while @current_index < @questions.length + (Main.options[:full_test] ? 1 : 0) do
+					@question = @questions[@current_index]
 				
-				unless @question.nil?
-					print "#{@current_index+1} / #{@questions.length}\t\t"
-					puts "From: #{@question.file}\t\tTime spent: #{spent?}"
+					unless @question.nil?
+						print "#{@current_index+1} / #{@questions.length}\t\t"
+						puts "From: #{@question.file}\t\tTime spent: #{spent?}"
 					
-					puts @question.answered(@answers[@question])
-				else
-					puts END_OF_TEST_MESSAGE
-				end
+						puts @question.answered(@answers[@question])
+					else
+						puts END_OF_TEST_MESSAGE
+					end
 				
-				until (line = prompt?).nil? or command(line)
-					# empty
+					until (line = prompt?).nil? or command(line)
+						# empty
+					end															
+					break if puts or line.nil?
 				end
-															
-				break if puts or line.nil?
+			rescue Interrupt
+				# empty
+			ensure						
+				statistics!
 			end
-			
-			statistics!
 		end
 		
 		#
