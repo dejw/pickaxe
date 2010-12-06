@@ -136,7 +136,8 @@ Example:
 
 ### Comments
 
-Lines that start with `#` or `//` are skipped (but does not treated as blank line).
+Lines that start with `#`, `//` or `;` are skipped (but does not treated as
+blank line).
 
 ### Example
 
