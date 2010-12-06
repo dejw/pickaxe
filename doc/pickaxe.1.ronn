@@ -44,6 +44,12 @@ answers will be marked by `!`. Example of a log file:
     Select certain <number> of questions. Useful for generating small random
     test sessions.
         
+  * `--repeat-incorrect`:
+    Repeat questions answered incorrectly. This option has no effect when used
+    with `--full-test` option. When this option is used, the logfile will not
+    be generated at the end of the session and only time will be listed in
+    statistics (since it forces all questions to be answered correctly).
+            
   * `--full-test`:
     Do not reveal correct answers until the end of test
 
