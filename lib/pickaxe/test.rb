@@ -15,7 +15,7 @@ module Pickaxe
 		include Enumerable
 		
 		# Ruby-comments and C-comments
-		COMMENTS_RE = /^\s*#.*|^\/\/.*|;.*/
+		COMMENTS_RE = /^\s*#.*|^\/\/.*|^;.*/
 		
 		def initialize(*files)
 			@files = files.collect do |file_or_directory|
@@ -108,7 +108,7 @@ module Pickaxe
 				content << answers.shift
 			end
 						
-			raise MissingAnswers.new(file, answers.first.index) if content.blank?
+			raise MissingContent.new(answers.first.index) if content.blank?
 			raise BadQuestion.new(content.first) unless m = RE.match(content.first)
 			raise MissingAnswers.new(content.first) if answers.blank?
 									
