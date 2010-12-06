@@ -165,6 +165,10 @@ You can grab [source code](https://github.com/dejw/pickaxe) with git by typing:
 
 Please create an [issue](https://github.com/dejw/pickaxe/issues) when You found a bug. Thanks!
 
+## CONTRIBUTORS
+
+	detach, finger, Nnidyu, pliber, sm00f, quermit
+	
 ## AUTHOR
 
 Dawid Fatyga

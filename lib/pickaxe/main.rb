@@ -126,15 +126,19 @@ END_OF_HELP
 		end
 		
 		def statistics!
+			@questions_length ||= @questions.length.to_f
+						
 			puts			
 			puts "Time: #{spent?}"
 			unless Main.options[:repeat_incorrect]
+				@stats = @test.statistics!(@answers)
+
+				
 				puts "All: #{@questions.length}"
 				stat :correct, :green
 				stat :unanswered, :yellow
 				stat :incorrect, :red
-			
-				@stats = @test.statistics!(@answers)
+				
 				@questions_length ||= @questions.length.to_f
 				@answers.each do |question, answers|
 					@logger << "!" unless question.correct?(answers)
