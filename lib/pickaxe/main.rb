@@ -16,7 +16,6 @@ END_OF_TEST
 		def initialize(paths, options = {})
 			raise NoTests, "no tests to run" if paths.empty?
 			
-			Main.options = options			
 			@test = Test.new(*paths)
 			return if options[:syntax_check]
 						
@@ -35,7 +34,12 @@ END_OF_TEST
 			end
 			
 			begin
-				puts "! Hit Control-D or Control-C to end test.\n\n".color(:green)	
+				if Pickaxe::WINDOWS_IT_IS
+					puts "! Hit Control-Z + [Enter] to end test\n\n"
+				else
+					puts "! Hit Control-D or Control-C to end test.\n\n".color(:green)	
+				end
+				
 				while @current_index < @questions.length + (Main.options[:full_test] ? 1 : 0) do
 					@question = @questions[@current_index]
 				

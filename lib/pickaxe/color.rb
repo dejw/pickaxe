@@ -47,7 +47,9 @@ module Pickaxe
 		# of the returned String.
 		#
 		def self.set_color(string, color, bold=false)
-			unless (Main.options || {})[:no_colors]
+			if Pickaxe::WINDOWS_IT_IS
+				string
+			elsif not (Main.options || {})[:no_colors]
 				color = self.const_get(color.to_s.upcase) if color.is_a?(Symbol)
 				bold = bold ? BOLD : ""
 				"#{bold}#{color}#{string}#{CLEAR}"

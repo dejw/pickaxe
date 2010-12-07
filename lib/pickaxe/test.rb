@@ -32,7 +32,7 @@ module Pickaxe
 			
 			@questions = []
 			@files.inject(nil) do |last, file|				
-				File.open(file) do |f|
+				File.open(file, "r:UTF-8") do |f|
 					lines = f.readlines.collect(&:strip).each_with_index.collect do |l, i|
 						TestLine.new(l, i)
 					end
@@ -108,7 +108,7 @@ module Pickaxe
 				content << answers.shift
 			end
 						
-			raise MissingAnswers.new(file, answers.first.index) if content.blank?
+			raise MissingContent.new(answers.first.index) if content.blank?
 			raise BadQuestion.new(content.first) unless m = RE.match(content.first)
 			raise MissingAnswers.new(content.first) if answers.blank?
 									

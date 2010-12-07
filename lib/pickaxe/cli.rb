@@ -60,6 +60,13 @@ end
 
 begin
 	parser.parse!
+	
+	Pickaxe::Main.options = options
+			
+	if Pickaxe::WINDOWS_IT_IS
+		$stderr.puts "! Hi there Windows user. You will not be able to see colors. Sorry for the inconvenience."
+	end
+	
 	if options[:full_test] and options[:repeat_incorrect]
 		$stderr.puts(("! --full-test disables the --repeat-incorrect option" ).color(:yellow))
 		options[:repeat_incorrect] = false
