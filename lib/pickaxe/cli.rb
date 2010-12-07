@@ -64,7 +64,14 @@ begin
 	Pickaxe::Main.options = options
 			
 	if Pickaxe::WINDOWS_IT_IS
-		$stderr.puts "! Hi there Windows user. You will not be able to see colors. Sorry for the inconvenience."
+		$stderr.puts <<END_OF_MESSAGE
+! Hi there Windows user.
+
+  You will not be able to see colors, all diacritics
+  will be transliteralized and dynamic console width
+  is not available. Sorry for the inconvenience.
+END_OF_MESSAGE
+		
 	end
 	
 	if options[:full_test] and options[:repeat_incorrect]

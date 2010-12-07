@@ -1,9 +1,13 @@
 module Pickaxe
 	class TestLine < String
 		attr_accessor :index
-		def initialize(itself, index)
-			super(itself)
+		def initialize(itself, index)			
 			self.index = index + 1
+			if Pickaxe::WINDOWS_IT_IS
+				replace(itself.to_ascii)
+			else
+				replace(itself)
+			end
 		end
 	end
 		
@@ -26,7 +30,7 @@ module Pickaxe
 				if File.file?(file_or_directory)
 					file_or_directory
 				else
-					Dir.glob("#{file_or_directory}/*.#{Main.options[:extension]}")
+					Dir.glob("#{file_or_directory.gsub("\\", "/")}/*.#{Main.options[:extension]}")
 				end				
 			end.flatten.collect { |f| f.squeeze('/') }
 			
