@@ -5,8 +5,8 @@ Pickaxe provides a simple way to load, solve and rate tests
 
 Documentation can be read [here](http://dejw.github.com/pickaxe/).
 
-**Note:** pickaxe was not tested on Windows yet (and it will not work there 
-since `Pickaxe::Shell` executes some terminal related code).
+**Note:** if You are Windows user please read 
+[Windows section](http://dejw.github.com/pickaxe/#WINDOWS) in manual.
 
 ## instalation
 

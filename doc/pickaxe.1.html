@@ -71,6 +71,7 @@
     <a href="#OPTIONS">OPTIONS</a>
     <a href="#EXAMPLES">EXAMPLES</a>
     <a href="#TEST-FILE-SYNTAX">TEST FILE SYNTAX</a>
+    <a href="#WINDOWS">WINDOWS</a>
     <a href="#SOURCE-CODE">SOURCE CODE</a>
     <a href="#CONTRIBUTORS">CONTRIBUTORS</a>
     <a href="#AUTHOR">AUTHOR</a>
@@ -147,7 +148,7 @@ statistics (since it forces all questions to be answered correctly).</p></dd>
 <h3 id="Options-related-to-test-files-and-syntax">Options related to test files and syntax</h3>
 
 <dl>
-<dt><code>-e</code>, <code>--extension</code>=<var>extension</var></dt><dd><p>Change the <var>extension</var> for files loaded automatically from directories
+<dt><code>-e</code>, <code>--ext</code>=<var>extension</var></dt><dd><p>Change the <var>extension</var> for files loaded automatically from directories
 (default is <var>txt</var>)</p></dd>
 <dt><code>--strict</code></dt><dd><p>Quit after first syntax error in test file</p></dd>
 <dt><code>--syntax-check</code></dt><dd><p>Check syntax only - do not run test. Makes <code>--sorted</code>, <code>--sorted-answers</code>
@@ -247,6 +248,12 @@ That is also the question (content).
   and the number of whitespaces does not matter
 &gt;&gt; (c) I do not know.
 </code></pre>
+
+<h2 id="WINDOWS">WINDOWS</h2>
+
+<p>It is possible to run <code>pickaxe</code> on Windows, but dynamic console width detection,
+colors and diacritics (text is transliterated) are not available. You have been
+warned.</p>
 
 <h2 id="SOURCE-CODE">SOURCE CODE</h2>
 

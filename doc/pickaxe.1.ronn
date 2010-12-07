@@ -61,7 +61,7 @@ answers will be marked by `!`. Example of a log file:
     
 ### Options related to test files and syntax
 
-  * `-e`, `--extension`=<extension>:
+  * `-e`, `--ext`=<extension>:
     Change the <extension> for files loaded automatically from directories 
     (default is <txt>)    
 
@@ -157,6 +157,12 @@ Example test file:
         that is still answer b)
       and the number of whitespaces does not matter
     >> (c) I do not know.
+
+## WINDOWS
+
+It is possible to run `pickaxe` on Windows, but dynamic console width detection,
+colors and diacritics (text is transliterated) are not available. You have been
+warned.
 	
 ## SOURCE CODE
 
