@@ -7,7 +7,7 @@ require "unidecoder"
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
 
 module Pickaxe
-	VERSION = "0.5.5"
+	VERSION = "0.6.0"
 	
 	class PickaxeError < StandardError; end
   
