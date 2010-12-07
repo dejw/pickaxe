@@ -68,7 +68,7 @@ begin
 ! Hi there Windows user.
 
   You will not be able to see colors, all diacritics
-  will be transliteralized and dynamic console width
+  will be transliterated and dynamic console width
   is not available. Sorry for the inconvenience.
 END_OF_MESSAGE
 		
