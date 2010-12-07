@@ -6,7 +6,7 @@ require "rbconfig"
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
 
 module Pickaxe
-	VERSION = "0.5.4"
+	VERSION = "0.5.5"
 	
 	class PickaxeError < StandardError; end
   
