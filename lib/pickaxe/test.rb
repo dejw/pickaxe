@@ -63,19 +63,19 @@ module Pickaxe
 			end
 		end
 		
-		def each(&block)
-			shuffled_questions.each(&block)
+		def each(options = Main.options, &block)
+			shuffled_questions(options).each(&block)
 		end
 		
-		def shuffled_questions
-			questions = if Main.options[:sorted]
+		def shuffled_questions(options = Main.options)
+			questions = if options[:sorted]
 				@questions
 			else
 				@questions.shuffle			
 			end
 			
-			@selected = if Main.options[:select]
-				questions[0...(Main.options[:select])]
+			@selected = if options[:select]
+				questions[0...(options[:select])]
 			else
 				questions
 			end			

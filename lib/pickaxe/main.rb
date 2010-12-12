@@ -4,6 +4,7 @@ module Pickaxe
 		class TabTermination < PickaxeError; end
 		
 		cattr_accessor :options
+		self.options = { :extension => "txt" }
 		
 		END_OF_TEST_MESSAGE = <<END_OF_TEST
 This is the end of this test and You can now jump back to
@@ -14,11 +15,11 @@ If You do not know how to jump back type `?' and press [ENTER].
 Hit [ENTER] to rate the test and see Your incorrect answers.
 END_OF_TEST
 
-		def initialize(paths, options = {})
+		def initialize(paths)
 			raise NoTests, "no tests to run" if paths.empty?
 			
 			@test = Test.new(*paths)
-			return if options[:syntax_check]
+			return if Main.options[:syntax_check]
 						
 			@logger = Logger.new(File.open('answers.log', 
 				File::WRONLY|File::APPEND|File::CREAT))

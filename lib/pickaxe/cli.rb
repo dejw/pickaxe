@@ -1,6 +1,5 @@
 require 'optparse'
 
-options = { :extension => "txt" }
 parser = OptionParser.new do |opts|
   opts.banner = <<END_OF_BANNER
 Usage: 
@@ -12,43 +11,43 @@ END_OF_BANNER
   opts.separator ""
   opts.on("-e", "--ext [EXTENSION]", "Use files with given EXTENSION " +
   	"(default 'txt')") do |extension|
-    options[:extension] = extension
+    Pickaxe::Main.options[:extension] = extension
   end
   
 	opts.on("-s", "--sorted", "Do not shuffle questions") do |v|
-		options[:sorted] = true
+		Pickaxe::Main.options[:sorted] = true
 	end
 	
 	opts.on("--sorted-answers", "Do not shuffle answers") do |v|
-		options[:sorted_answers] = true
+		Pickaxe::Main.options[:sorted_answers] = true
 	end	
 	
 	opts.on("--select [NUMBER]", "Select certain number of questions") do |v|
-		options[:select] = Integer(v)
+		Pickaxe::Main.options[:select] = Integer(v)
 	end
 	  
 	opts.on("--full-test", "Checks test after all questions are answered") do |v|
-		options[:full_test] = true
+		Pickaxe::Main.options[:full_test] = true
 	end
 	
 	opts.on("--repeat-incorrect", "Repeat questions answered incorrectly") do |v|
-		options[:repeat_incorrect] = true
+		Pickaxe::Main.options[:repeat_incorrect] = true
 	end
 	
 	opts.on("--strict", "Quit on syntax error in test file") do |v|
-		options[:strict] = true
+		Pickaxe::Main.options[:strict] = true
 	end
 	
 	opts.on_tail("--syntax-check", "Check syntax only - do not run test") do
-    options[:syntax_check] = true
+    Pickaxe::Main.options[:syntax_check] = true
   end
   
 	opts.on("--clear", "Turn on shell clearing before question") do |v|
-		options[:clear] = true
+		Pickaxe::Main.options[:clear] = true
 	end	
 	
 	opts.on("--no-color", "Turn off colors") do |v|
-		options[:no_colors] = true
+		Pickaxe::Main.options[:no_colors] = true
 	end	
   
   opts.on_tail("--version", "Show version") do
@@ -65,8 +64,6 @@ end
 begin
 	parser.parse!
 	
-	Pickaxe::Main.options = options
-			
 	if Pickaxe::WINDOWS_IT_IS
 		$stderr.puts <<END_OF_MESSAGE
 ! Hi there Windows user.
@@ -81,11 +78,11 @@ END_OF_MESSAGE
 		
 	end
 	
-	if options[:full_test] and options[:repeat_incorrect]
+	if Pickaxe::Main.options[:full_test] and Pickaxe::Main.options[:repeat_incorrect]
 		$stderr.puts(("! --full-test disables the --repeat-incorrect option" ).color(:yellow))
-		options[:repeat_incorrect] = false
+		Pickaxe::Main.options[:repeat_incorrect] = false
 	end
-	Pickaxe::Main.new(ARGV, options)
+	Pickaxe::Main.new(ARGV)
 rescue Pickaxe::PickaxeError, OptionParser::InvalidOption => e
 	$stderr.puts(("! " + e.to_s).color(:red))
 end
