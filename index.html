@@ -107,12 +107,15 @@ written in simple text format.</p>
 <p>By default <code>pickaxe</code> loads any text file given as command line argument,
 and searches for any <var>txt</var> files when given <var>path</var> is a directory.</p>
 
+<p>Answering the questions is simple and straightforward -- simply write
+Your answer and press [ENTER] or [TAB] key.</p>
+
 <p><code>pickaxe</code> provides bunch of commands during the test. Type <code>?</code> and hit <code>enter</code>
 for help.</p>
 
 <p>At the end of the test, <code>pickaxe</code> saves given answers to <code>answers.log</code>, thus it
-is vital to either finish whole test or quit <code>pickaxe</code> with Control-D. Incorrect
-answers will be marked by <code>!</code>. Example of a log file:</p>
+is vital to either finish whole test or quit <code>pickaxe</code> with Control-D or
+Control-C. Incorrect answers will be marked by <code>!</code>. Example of a log file:</p>
 
 <pre><code>123: a b
 !456: c d e
@@ -124,6 +127,7 @@ answers will be marked by <code>!</code>. Example of a log file:</p>
 <h2 id="OPTIONS">OPTIONS</h2>
 
 <dl>
+<dt><code>--no-clear</code></dt><dd><p>Turn off clearing the console</p></dd>
 <dt><code>--no-color</code></dt><dd><p>Turn off colors</p></dd>
 <dt><code>--version</code></dt><dd><p>Show pickaxe version and exit</p></dd>
 <dt class="flush"><code>--help</code></dt><dd><p>Show help and exit</p></dd>
@@ -252,8 +256,8 @@ That is also the question (content).
 <h2 id="WINDOWS">WINDOWS</h2>
 
 <p>It is possible to run <code>pickaxe</code> on Windows, but dynamic console width detection,
-colors and diacritics (text is transliterated) are not available. You have been
-warned.</p>
+colors and diacritics (text is transliterated) and some other stuff is not
+available. You have been warned.</p>
 
 <h2 id="SOURCE-CODE">SOURCE CODE</h2>
 
@@ -266,7 +270,7 @@ warned.</p>
 
 <h2 id="CONTRIBUTORS">CONTRIBUTORS</h2>
 
-<pre><code>detach, finger, Nnidyu, pliber, sm00f, quermit
+<pre><code>detach, finger, fryta, Nnidyu, pliber, sm00f, quermit
 </code></pre>
 
 <h2 id="AUTHOR">AUTHOR</h2>
