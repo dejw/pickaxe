@@ -200,7 +200,7 @@ module Pickaxe
 				else
 					""
 				end
-				"Incorrect, should be:".color(:red) + " #{correct_answers.join}! #{[missed, incorrect].join(" ")}" 
+				"Incorrect, should be:".color(:red) + " #{correct_answers.join.color(:green)}! #{[missed, incorrect].join(" ")}" 
 			end
 		end
 	end
