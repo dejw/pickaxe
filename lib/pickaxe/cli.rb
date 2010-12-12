@@ -43,6 +43,10 @@ END_OF_BANNER
     options[:syntax_check] = true
   end
   
+	opts.on("--no-clear", "Turn off shell clearing") do |v|
+		options[:no_clear] = true
+	end	
+	
 	opts.on("--no-color", "Turn off colors") do |v|
 		options[:no_colors] = true
 	end	
@@ -68,8 +72,11 @@ begin
 ! Hi there Windows user.
 
   You will not be able to see colors, all diacritics
-  will be transliterated and dynamic console width
-  is not available. Sorry for the inconvenience.
+  will be transliterated, dynamic console width
+  is not available, You cannot answer using the [TAB]
+  and the console will not be cleared on new question.
+  
+  Sorry for the inconvenience.
 END_OF_MESSAGE
 		
 	end

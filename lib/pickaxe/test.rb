@@ -188,10 +188,19 @@ module Pickaxe
 			if correct?(given)
 				"Correct!".color(:green)
 			else
-				hit = "#{(given & correct_answers).join}".color(:green)
-				missed = "#{(correct_answers - given).join}".color(:yellow)				
-				incorrect = "#{(given - correct_answers).join}".color(:red)				
-				"Incorrect, should be: #{correct_answers.join}! #{hit} #{missed} #{incorrect}" 
+				missed = (correct_answers - given)
+				missed =  unless missed.empty?
+					"Missed: #{missed.join}".color(:yellow)
+				else
+					""
+				end
+				incorrect = (given - correct_answers)
+				incorrect = unless incorrect.empty?
+					"Wrong: #{incorrect.join}".color(:red)
+				else
+					""
+				end
+				"Incorrect, should be:".color(:red) + " #{correct_answers.join}! #{[missed, incorrect].join(" ")}" 
 			end
 		end
 	end

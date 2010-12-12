@@ -11,6 +11,13 @@ module Pickaxe
 				(dynamic_width_stty.nonzero? || dynamic_width_tput)
 			end
 		end
+		
+		def self.clear
+			unless Pickaxe::WINDOWS_IT_IS or Main.options[:no_clear]
+				print "\e[H\e[2J"
+			end
+		end
+		
 	private
 		def self.dynamic_width_stty
 		  %x{stty size 2>/dev/null}.split[1].to_i

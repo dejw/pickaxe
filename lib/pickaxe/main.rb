@@ -50,8 +50,11 @@ END_OF_TEST
 					@question = @questions[@current_index]
 				
 					unless @question.nil?
+						Shell.clear
+						
+						puts "#{@last_answer}\n\n"
 						print "#{@current_index+1} / #{@questions.length}\t\t"
-						puts "From: #{@question.file}\t\tTime spent: #{spent?}"
+						puts "From: #{@question.file}\t\tTime spent: #{spent?}\n\n"
 					
 						puts @question.answered(@answers[@question])
 					else
@@ -76,12 +79,17 @@ END_OF_TEST
 		# 	<+						moves back one question
 		# 	>+						moves forward one question
 		# 	a [ b ...]    answers the question
+		#   .             shows current question again
 		#   ?							shows help
 		#
 		def command(line)
+			@last_answer = nil
+			
 			case line
 			when /^\s*@\s*(.+)/	then # @ question
 				@current_index = Integer($1) -1
+				true
+			when /\./ then
 				true
 			when /<+/ then
 				if @current_index > 0
@@ -116,6 +124,7 @@ Available commands (whitespace does not matter):
   <            moves back one question
   >            moves forward one question
   a [ b ...]   answers the question
+  .            shows current question again
   ?            shows help
   
 END_OF_HELP
@@ -123,7 +132,12 @@ END_OF_HELP
 			else
 				@answers[@question] = convert_answers(line)
 				unless Main.options[:full_test]
-					puts @question.check?(@answers[@question])
+					@last_answer = @question.check?(@answers[@question])
+					
+					if @current_index == (@questions.length-1)
+						puts @last_answer
+					end
+					
 					if Main.options[:repeat_incorrect] and not @question.correct?(@answers[@question])
 						@answers.delete(@question)
 						@questions.insert(@current_index + 1 + rand(@questions.length - @current_index), @question)
