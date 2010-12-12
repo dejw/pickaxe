@@ -86,7 +86,7 @@ END_OF_TEST
 		def command(line)
 			@last_answer = nil
 			
-			case line
+			case line.strip
 			when /^\s*@\s*(.+)/	then # @ question
 				@current_index = Integer($1) -1
 				true
@@ -106,7 +106,7 @@ END_OF_TEST
 				else
 					error "You are at last question"
 				end
-			when "\n" then
+			when "" then
 				if Main.options[:full_test] and @question.nil?
 					Main.options[:full_test] = false
 					Main.options[:force_show_answers] = true
