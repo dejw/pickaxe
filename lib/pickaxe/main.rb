@@ -115,7 +115,7 @@ Available commands (whitespace does not matter):
 END_OF_HELP
 				false
 			else
-				@answers[@question] = line.gsub(/\s+/, "").each_char.collect.to_a.uniq
+				@answers[@question] = convert_answers(line)
 				unless Main.options[:full_test]
 					puts @question.check?(@answers[@question])
 					if Main.options[:repeat_incorrect] and not @question.correct?(@answers[@question])
@@ -131,6 +131,17 @@ END_OF_HELP
 				end				
 				true
 			end
+		end
+		
+		ANSWER_CONVERTION_HASH = ('a'..'z').to_a[0,10].each_with_index.inject({}) do |m, p| 
+			m[((p.last + 1) % 10).to_s] =  p.first
+			m
+		end
+		
+		def convert_answers(line)			
+			line.gsub(/\s+/, "").downcase.each_char.collect do |c|
+				ANSWER_CONVERTION_HASH[c]
+			end.to_a.uniq
 		end
 		
 		def statistics!
