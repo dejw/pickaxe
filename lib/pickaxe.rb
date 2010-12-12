@@ -18,7 +18,7 @@ end
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
 
 module Pickaxe
-	VERSION = "0.6.3"
+	VERSION = "0.7.0"
 	
 	class PickaxeError < StandardError; end
   
