@@ -68,7 +68,8 @@ END_OF_TEST
 				end
 			rescue Interrupt
 				# empty
-			ensure						
+			ensure
+				puts "#{@last_answer}\n\n"
 				statistics!
 			end
 		end
@@ -133,11 +134,6 @@ END_OF_HELP
 				@answers[@question] = convert_answers(line)
 				unless Main.options[:full_test]
 					@last_answer = @question.check?(@answers[@question])
-					
-					if @current_index == (@questions.length-1)
-						puts @last_answer
-					end
-					
 					if Main.options[:repeat_incorrect] and not @question.correct?(@answers[@question])
 						@answers.delete(@question)
 						@questions.insert(@current_index + 1 + rand(@questions.length - @current_index), @question)
