@@ -49,12 +49,21 @@ Control-C. Incorrect answers will be marked by `!`. Example of a log file:
   * `--select`=<number>:
     Select certain <number> of questions. Useful for generating small random
     test sessions.
-        
+
+  * `--single`:
+    Generate test in a way that all questions have only one correct answer.
+    
+    `NOTE:` questions in input files should not contains answers that states
+    that all other answers are incorrect, because this invalidates the
+    algorithm (except tests in Polish language due to special hack; see code
+    for more details).
+            
   * `--repeat-incorrect`:
     Repeat questions answered incorrectly. This option has no effect when used
-    with `--full-test` option. When this option is used, the logfile will not
-    be generated at the end of the session and only time will be listed in
-    statistics (since it forces all questions to be answered correctly).
+    with `--full-test` or `--single` option. When this option is used, the 
+    logfile will not be generated at the end of the session and only time will 
+    be listed in statistics (since it forces all questions to be answered 
+    correctly).
             
   * `--full-test`:
     Do not reveal correct answers until the end of test
