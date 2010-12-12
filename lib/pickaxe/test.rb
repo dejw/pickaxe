@@ -134,6 +134,10 @@ module Pickaxe
 			end
 		end
 		
+		def reset!
+			@shuffled_answers = nil
+		end
+		
 		def shuffled_answers
 			if @shuffled_answers.nil?
 				unless Main.options[:sorted_answers]
