@@ -3,7 +3,17 @@ require "bundler/setup"
 require "active_support/all"
 require "rbconfig"
 require "unidecoder"
-require 'readline'
+begin
+	require 'readline'
+rescue LoadError
+	class Readline
+		def self.completion_proc=(value); end
+		def self.readline(prompt)
+			print prompt
+			$stdin.gets
+		end
+	end
+end
 
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
 
