@@ -139,10 +139,17 @@ Control-C. Incorrect answers will be marked by <code>!</code>. Example of a log 
 <dl>
 <dt><code>--select</code>=<var>number</var></dt><dd><p>Select certain <var>number</var> of questions. Useful for generating small random
 test sessions.</p></dd>
+<dt><code>--single</code></dt><dd><p>Generate test in a way that all questions have only one correct answer.</p>
+
+<p><code>NOTE:</code> questions in input files should not contains answers that states
+that all other answers are incorrect, because this invalidates the
+algorithm (except tests in Polish language due to special hack; see code
+for more details).</p></dd>
 <dt><code>--repeat-incorrect</code></dt><dd><p>Repeat questions answered incorrectly. This option has no effect when used
-with <code>--full-test</code> option. When this option is used, the logfile will not
-be generated at the end of the session and only time will be listed in
-statistics (since it forces all questions to be answered correctly).</p></dd>
+with <code>--full-test</code> or <code>--single</code> option. When this option is used, the
+logfile will not be generated at the end of the session and only time will
+be listed in statistics (since it forces all questions to be answered
+correctly).</p></dd>
 <dt><code>--full-test</code></dt><dd><p>Do not reveal correct answers until the end of test</p></dd>
 <dt><code>-s</code>, <code>--sorted</code></dt><dd><p>Stop shuffling the questions</p></dd>
 <dt><code>--sorted-answers</code></dt><dd><p>Stop shuffling the answers</p></dd>
