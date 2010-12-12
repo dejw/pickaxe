@@ -1,6 +1,7 @@
 module Pickaxe
 	class Main
 		class NoTests < PickaxeError; end
+		class TabTermination < PickaxeError; end
 		
 		cattr_accessor :options
 		
@@ -40,6 +41,11 @@ END_OF_TEST
 					puts "! Hit Control-D or Control-C to end test.\n\n".color(:green)	
 				end
 				
+				Readline.completion_proc = Proc.new do |line|
+					@line = line
+					raise TabTermination
+				end
+
 				while @current_index < @questions.length + (Main.options[:full_test] ? 1 : 0) do
 					@question = @questions[@current_index]
 				
@@ -51,7 +57,7 @@ END_OF_TEST
 					else
 						puts END_OF_TEST_MESSAGE
 					end
-				
+					
 					until (line = prompt?).nil? or command(line)
 						# empty
 					end															
@@ -140,7 +146,7 @@ END_OF_HELP
 		
 		def convert_answers(line)			
 			line.gsub(/\s+/, "").downcase.each_char.collect do |c|
-				ANSWER_CONVERTION_HASH[c]
+				ANSWER_CONVERTION_HASH[c] || c
 			end.to_a.uniq
 		end
 		
@@ -173,8 +179,16 @@ END_OF_HELP
 		end
 		
 		def prompt?(p = "? ")
-			print p
-			$stdin.gets
+			unless Pickaxe::WINDOWS_IT_IS
+			begin
+				Readline.readline(p)
+			rescue TabTermination
+				puts
+				@line + "\n"
+			end else
+				print p
+				$stdin.gets
+			end
 		end
 		
 		def spent?

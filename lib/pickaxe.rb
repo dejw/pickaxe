@@ -3,6 +3,7 @@ require "bundler/setup"
 require "active_support/all"
 require "rbconfig"
 require "unidecoder"
+require 'readline'
 
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
 
