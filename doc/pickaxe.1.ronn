@@ -32,8 +32,8 @@ Control-C. Incorrect answers will be marked by `!`. Example of a log file:
     
 ## OPTIONS
 
-  * `--no-clear`:
-    Turn off clearing the console
+  * `--clear`:
+    Turn on shell clearing before question
     
   * `--no-color`:
     Turn off colors

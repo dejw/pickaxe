@@ -13,7 +13,7 @@ module Pickaxe
 		end
 		
 		def self.clear
-			unless Pickaxe::WINDOWS_IT_IS or Main.options[:no_clear]
+			if not Pickaxe::WINDOWS_IT_IS and Main.options[:clear]
 				print "\e[H\e[2J"
 			end
 		end

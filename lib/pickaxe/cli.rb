@@ -43,8 +43,8 @@ END_OF_BANNER
     options[:syntax_check] = true
   end
   
-	opts.on("--no-clear", "Turn off shell clearing") do |v|
-		options[:no_clear] = true
+	opts.on("--clear", "Turn on shell clearing before question") do |v|
+		options[:clear] = true
 	end	
 	
 	opts.on("--no-color", "Turn off colors") do |v|
