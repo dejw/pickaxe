@@ -26,6 +26,10 @@ END_OF_BANNER
 		Pickaxe::Main.options[:select] = Integer(v)
 	end
 	  
+	opts.on("--single", "Generated test will have only 1 correct answer") do |v|
+		Pickaxe::Main.options[:one_choice] = true
+	end
+	
 	opts.on("--full-test", "Checks test after all questions are answered") do |v|
 		Pickaxe::Main.options[:full_test] = true
 	end
@@ -82,6 +86,12 @@ END_OF_MESSAGE
 		$stderr.puts(("! --full-test disables the --repeat-incorrect option" ).color(:yellow))
 		Pickaxe::Main.options[:repeat_incorrect] = false
 	end
+	
+	if Pickaxe::Main.options[:one_choice] and Pickaxe::Main.options[:repeat_incorrect]
+		$stderr.puts(("! --one-choice disables the --repeat-incorrect option" ).color(:yellow))
+		Pickaxe::Main.options[:repeat_incorrect] = false
+	end
+	
 	Pickaxe::Main.new(ARGV)
 rescue Pickaxe::PickaxeError, OptionParser::InvalidOption => e
 	$stderr.puts(("! " + e.to_s).color(:red))

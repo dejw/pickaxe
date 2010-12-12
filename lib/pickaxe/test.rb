@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+
 module Pickaxe
 	class TestLine < String
 		attr_accessor :index
@@ -11,7 +13,7 @@ module Pickaxe
 		end
 	end
 		
-	class Test
+	class Test		
 		include Pickaxe::Errors
 		
 		attr_reader :questions
@@ -106,6 +108,11 @@ module Pickaxe
 		
 		RE = /^\s*(\d+)\.?\s*(.+)$/u	
 		
+		def initialize(*args)
+			super(*args)
+			reindex_answers(self.answers)
+		end
+		
 		def self.parse(file, answers)
 			content = []
 			until answers.first.nil? or Answer::RE.match(answers.first)
@@ -128,8 +135,7 @@ module Pickaxe
 			
 			answers = answers.collect {|answer| Answer.parse(answer) }
 			Question.new(file, m[1], content, answers).tap do |q|
-				raise NoCorrectAnswer.new(q) if q.correct_answers.blank?				
-				raise NotUniqueAnswerIndices.new(q) unless q.answer_indices.uniq!.nil?
+				raise NoCorrectAnswer.new(q) if q.correct_answers.blank?
 				q.content = q.content.join(" ").gsub("\\n", "\n")
 			end
 		end
@@ -142,15 +148,55 @@ module Pickaxe
 			if @shuffled_answers.nil?
 				unless Main.options[:sorted_answers]
 					@shuffled_answers = self.answers.shuffle
-					answer_indices.sort.each_with_index do |index, order|
-						@shuffled_answers[order].index = index
-					end
+					reindex_answers(@shuffled_answers)
 				else
 					@shuffled_answers = self.answers
+				end
+				
+				if Main.options[:one_choice]
+					# NOTE:
+					# This hack line removes possible answers that states that non of
+					# other answers are correct (in Polish), because this invalidates
+					# the algorithm fot generating fourth answer from given 3
+					#
+					# NOTE: Other languages will remain untouched.
+					#
+					@shuffled_answers.reject! { |a| a.content =~ /(\s+|^)żadne(\s+|$)/u }
+					reindex_answers(@shuffled_answers)
+					# END OF HACK
+			
+					@shuffled_answers = generate_fourth_answer(@shuffled_answers[0...3])
 				end
 			end
 			
 			@shuffled_answers
+		end
+		
+		def reindex_answers(answers)
+			letters = ('a'...'z').to_a
+			answers.each_with_index do |index, order|
+				answers[order].index = letters[order]
+			end
+		end
+		
+		def generate_fourth_answer(answers)			
+			correct = correct_answers(answers)
+			answers + case correct.length
+			when 0 then
+				[Answer.new(Answer::EMPTY, "d", true)]
+			when 1
+				left = answer_indices(answers) - correct
+				fourth = (0...([3, left.length].min)).collect {|i| left.combination(i).to_a.flatten }.shuffle.first
+				fourth = if fourth.empty?
+					Answer::EMPTY
+				else
+					Answer::CORRECT_ARE % fourth.map(&:upcase).join(", ")
+				end
+				[Answer.new(fourth, "d", false)]
+			else
+				answers.each {|a| a.correctness = false }
+				[Answer.new(Answer::CORRECT_ARE % correct.map(&:upcase).join(", "), "d", true)]
+			end
 		end
 		
 		def answered(indices)
@@ -176,12 +222,12 @@ module Pickaxe
 			given.sort == correct_answers
 		end
 		
-		def correct_answers
-			answers.select(&:correctness).collect(&:index).sort
+		def correct_answers(a = shuffled_answers)
+			a.select(&:correctness).collect(&:index).sort
 		end
 		
-		def answer_indices
-			shuffled_answers.collect(&:index)
+		def answer_indices(a = shuffled_answers)
+			a.collect(&:index)
 		end
 		
 		def check?(given)
@@ -206,6 +252,9 @@ module Pickaxe
 	end
 	
 	class Answer < Struct.new(:content, :index, :correctness)
+		EMPTY = "None of answers above is correct"
+		CORRECT_ARE = "Correct answers: %s"
+		
 		RE = /^\s*(>+)?\s*(\?+)?\s*\(?(\w)\)\s*(.+)$/u
 		LINE_RE = /^\s*\\?\s*([[:alpha:]]|\w+)/u
 		

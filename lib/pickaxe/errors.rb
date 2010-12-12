@@ -49,12 +49,5 @@ module Pickaxe
 					BadQuestion.message(question.content.first, "has no correct answers"))
 			end
 		end
-	
-		class NotUniqueAnswerIndices < TestSyntaxError
-			def initialize(question)
-				super(question.content.first.index,
-					BadQuestion.message(question.content.first, "answer indices are not unique"))
-			end
-		end
 	end
 end
