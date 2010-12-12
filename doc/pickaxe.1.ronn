@@ -14,12 +14,15 @@ written in simple text format.
 By default `pickaxe` loads any text file given as command line argument,
 and searches for any <txt> files when given <path> is a directory.
 
+Answering the questions is simple and straightforward -- simply write
+Your answer and press [ENTER] or [TAB] key.
+
 `pickaxe` provides bunch of commands during the test. Type `?` and hit `enter`
 for help.
 
 At the end of the test, `pickaxe` saves given answers to `answers.log`, thus it
-is vital to either finish whole test or quit `pickaxe` with Control-D. Incorrect
-answers will be marked by `!`. Example of a log file:
+is vital to either finish whole test or quit `pickaxe` with Control-D or
+Control-C. Incorrect answers will be marked by `!`. Example of a log file:
 
     123: a b
     !456: c d e
@@ -29,6 +32,9 @@ answers will be marked by `!`. Example of a log file:
     
 ## OPTIONS
 
+  * `--no-clear`:
+    Turn off clearing the console
+    
   * `--no-color`:
     Turn off colors
 
@@ -161,8 +167,8 @@ Example test file:
 ## WINDOWS
 
 It is possible to run `pickaxe` on Windows, but dynamic console width detection,
-colors and diacritics (text is transliterated) are not available. You have been
-warned.
+colors and diacritics (text is transliterated) and some other stuff is not 
+available. You have been warned.
 	
 ## SOURCE CODE
 
@@ -174,7 +180,7 @@ Please create an [issue](https://github.com/dejw/pickaxe/issues) when You found 
 
 ## CONTRIBUTORS
 
-	detach, finger, Nnidyu, pliber, sm00f, quermit
+	detach, finger, fryta, Nnidyu, pliber, sm00f, quermit
 	
 ## AUTHOR
 
