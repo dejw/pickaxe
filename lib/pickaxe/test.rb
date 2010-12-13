@@ -161,7 +161,7 @@ module Pickaxe
 					#
 					# NOTE: Other languages will remain untouched.
 					#
-					@shuffled_answers.reject! { |a| a.content =~ /(\s+|^)żadne(\s+|$)/u }
+					@shuffled_answers.reject! { |a| a.content =~ /(\s+|^)(ż|Ż)adn(a|e)(\s+|$)/ui }
 					reindex_answers(@shuffled_answers)
 					# END OF HACK
 			
@@ -181,21 +181,25 @@ module Pickaxe
 		
 		def generate_fourth_answer(answers)			
 			correct = correct_answers(answers)
-			answers + case correct.length
+			answers << case correct.length
 			when 0 then
-				[Answer.new(Answer::EMPTY, "d", true)]
+				Answer.new(Answer::EMPTY, "d", true)
 			when 1
-				left = answer_indices(answers) - correct
-				fourth = (0...([3, left.length].min)).collect {|i| left.combination(i).to_a.flatten }.shuffle.first
+				indices = answer_indices(answers)
+				fourth = [[]]
+				fourth.push(*indices.combination(2).to_a)
+				fourth.push(*indices.combination(3).to_a)
+				
+				fourth = fourth.shuffle.first
 				fourth = if fourth.empty?
 					Answer::EMPTY
 				else
 					Answer::CORRECT_ARE % fourth.map(&:upcase).join(", ")
 				end
-				[Answer.new(fourth, "d", false)]
+				Answer.new(fourth, "d", false)
 			else
 				answers.each {|a| a.correctness = false }
-				[Answer.new(Answer::CORRECT_ARE % correct.map(&:upcase).join(", "), "d", true)]
+				Answer.new(Answer::CORRECT_ARE % correct.map(&:upcase).join(", "), "d", true)
 			end
 		end
 		
