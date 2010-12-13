@@ -150,13 +150,24 @@ END_OF_HELP
 			end
 		end
 		
-		ANSWER_CONVERTION_HASH = ('a'..'z').to_a[0,10].each_with_index.inject({}) do |m, p| 
+		LETTERS = ('a'..'z').to_a
+		ANSWER_CONVERTION_HASH = LETTERS[0,10].each_with_index.inject({}) do |m, p| 
 			m[((p.last + 1) % 10).to_s] =  p.first
 			m
 		end
-		
-		def convert_answers(line)			
-			line.gsub(/\s+/, "").downcase.each_char.collect do |c|
+				
+		def convert_answers(line)
+			line = line.gsub(/\s+/, "").split("").each_with_index.inject("") do |l, pair|
+				l + if pair.first == "["
+					LETTERS[pair.last]
+				elsif pair.first == "]"
+					""
+				else
+					pair.first
+				end
+			end
+
+			line = line.downcase.each_char.collect do |c|
 				ANSWER_CONVERTION_HASH[c] || c
 			end.to_a.uniq
 		end
