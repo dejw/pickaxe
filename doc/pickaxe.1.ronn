@@ -58,7 +58,7 @@ Control-C. Incorrect answers will be marked by `!`. Example of a log file:
     algorithm (except tests in Polish language due to special hack; see code
     for more details).
             
-  * `--repeat-incorrect`:
+  * `-r`, `--repeat-incorrect`:
     Repeat questions answered incorrectly. This option has no effect when used
     with `--full-test` or `--single` option. When this option is used, the 
     logfile will not be generated at the end of the session and only time will 

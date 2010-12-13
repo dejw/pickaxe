@@ -34,7 +34,7 @@ END_OF_BANNER
 		Pickaxe::Main.options[:full_test] = true
 	end
 	
-	opts.on("--repeat-incorrect", "Repeat questions answered incorrectly") do |v|
+	opts.on("-r", "--repeat-incorrect", "Repeat questions answered incorrectly") do |v|
 		Pickaxe::Main.options[:repeat_incorrect] = true
 	end
 	

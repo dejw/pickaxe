@@ -161,7 +161,7 @@ module Pickaxe
 					#
 					# NOTE: Other languages will remain untouched.
 					#
-					@shuffled_answers.reject! { |a| a.content =~ /(\s+|^)(ż|Ż)adn(a|e)(\s+|$)/ui }
+					@shuffled_answers.reject! { |a| a.content =~ /(\s+|^)(ż|Ż)ad(na|ne|en)(\s+|$)/ui }
 					reindex_answers(@shuffled_answers)
 					# END OF HACK
 			

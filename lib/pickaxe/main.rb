@@ -137,9 +137,9 @@ END_OF_HELP
 					@last_answer = @question.check?(@answers[@question])
 					if Main.options[:repeat_incorrect] and not @question.correct?(@answers[@question])
 						@answers.delete(@question)
+						@question.reset!
 						@questions.insert(@current_index + 1 + rand(@questions.length - @current_index), @question)
 						@questions.delete_at(@current_index)
-						@question.reset!
 					else
 						@current_index += 1
 					end
