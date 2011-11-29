@@ -14,7 +14,6 @@ namespace :doc do
 		end.join(" ")
 				
 		ENV['RONN_LAYOUT'] = File.expand_path(File.join(File.dirname(__FILE__), "doc", "template", "github.html"))
-		
 		sh "ronn --html #{options} doc/pickaxe.1.ronn"
 	end
 end
