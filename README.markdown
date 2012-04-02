@@ -1,6 +1,6 @@
 # pickaxe
 
-![](https://secure.travis-ci.org/dejw/pickaxe.png)
+![](https://secure.travis-ci.org/dejw/pickaxe.png) &nbsp; ![](https://gemnasium.com/dejw/pickaxe.png)
 
 Pickaxe provides a simple way to load, solve and rate tests
 (bundle of questions) written in simple text format.
